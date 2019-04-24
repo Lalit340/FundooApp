@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {View , Text , StyleSheet , Image , TextInput,TouchableOpacity} from 'react-native';
-import { DrawerActions } from 'react-navigation-drawer';
+
 
 
 
@@ -10,16 +10,16 @@ export default class Note extends Component {
 
   static navigationOptions ={ header : null };
 
-  back(event){
-  //  this.props.navigation.navigate.goBack();
-    this.props.navigation.dispatch(DrawerActions.openDrawer());
+  back(){
+   this.props.navigation.navigate('Drawer');
+
   }
 
   render() {
     return (
       <View>
      <View style={styles.container}>
-     <TouchableOpacity onPress={(event) =>this.back(event)}>
+     <TouchableOpacity onPress={() =>this.back()}>
          <Image 
           style ={{width: 25, height: 25, marginHorizontal: 15, marginVertical: 6 }}
           source = {require('../Images/leftArrow.png')}

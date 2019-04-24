@@ -41,5 +41,36 @@ export async function signinPage(email, password) {
 };
 
 
+export async function createNotes(title, note) {
+    var user = Firebase.firebase.auth().currentUser;
+
+    var email = user.email;
+    var arr = {
+        title: title,
+        note: note,
+        email: email,
+    }
+
+    database.database.ref('/UserNote').push(arr)
+
+}
 
 
+
+export async function logOut() {
+    await Firebase.firebase.auth().signOut()
+    console.log('successfully logout is done');
+}
+
+
+
+export async function getData(callback) {
+   var user = Firebase.firebase.auth().currentUser ;
+   var email = user.email ;
+
+   Firebase.database.ref('UserNote').orderByChild('email').equalTo(email).on('value' , snap =>{
+     var data = snap.val();
+
+     return callback(data);
+   })
+}

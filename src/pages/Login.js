@@ -9,7 +9,7 @@ import {
     Image,
 } from 'react-native';
 
-import signinPage from '../Implementation';
+import { signinPage } from '../Implementation';
 
 
 
@@ -52,13 +52,13 @@ class LoginPage extends Component {
     }
 
     sign() {
-        // var validate = this.signInValidation();
-        // if (validate) {
-        //     var data = signinPage(this.state.user, this.state.pwd);
-        // }
-        // if (data) {
+        var validate = this.signInValidation();
+        if (validate) {
+            var data = signinPage(this.state.user, this.state.pwd);
+        }
+        if (data) {
             this.props.navigation.navigate('Drawer');
-        // }
+        }
     }
 
     render() {
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: 'white',
     },
-    
+
     textBox: {
         width: 300,
         borderRadius: 20,

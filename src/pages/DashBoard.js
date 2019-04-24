@@ -1,26 +1,64 @@
 
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { DrawerActions } from 'react-navigation-drawer';
-
+import { getData } from '../Implementation';
+import Display from '../component/CardComponent';
 
 
 
 export default class HomePage extends Component {
 
-
-  static navigationOptions = ({navigation}) => {
-    let drawerLebel = 'Home';
-
-    return {drawerLebel};
+  constructor() {
+    super();
+    this.state = {
+      click: false,
+      note: [],
+    }
   }
-  getNote = () => {
+
+  getClick() {
+    this.setState({ click: !(this.state.click) });
+  }
+  getNote() {
     this.props.navigation.navigate('Note');
   }
+  createNote() {
+    this.props.navigation.navigate('Create');
+  }
 
+  componentDidMount() {
+
+    getData(arr => {
+      if (arr) {
+        this.setState({
+          note: arr,
+        })
+      } else {
+        this.setState({
+          note: [],
+        })
+      }
+    })
+
+  }
   render() {
+
+    var arrData, key, data;
+    arrData = Object.keys(this.state.note).map((note) => {
+      key = note;
+      data = this.state.note[key];
+      return (
+        <Display display={data}
+          notekey={key}
+          view={this.state.click}
+          navigation={this.props.navigation}
+        />
+      )
+    });
+
     return (
-      <View >
+      <View style={{ flex: 1 }} >
         <View style={styles.container1}>
           <TouchableOpacity onPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}>
             <Image
@@ -29,15 +67,28 @@ export default class HomePage extends Component {
             />
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => this.getNote()} >
-            <Text style={styles.textEdit} onPress={this.getNote}>Search your Notes</Text>
+          <TouchableOpacity  >
+            <Text style={styles.textEdit} onPress={() => this.getNote()}>Search your Notes</Text>
           </TouchableOpacity>
-          <TouchableOpacity >
-            <Image
-              style={{ width: 30, height: 30, marginLeft: 110, marginVertical: 6 }}
-              source={require('../Images/squar.png')}
-            />
-          </TouchableOpacity>
+          {
+            this.state.click ?
+              (<View>
+                <TouchableOpacity onPress={() => this.getClick()}>
+                  <Image
+                    style={{ width: 30, height: 30, marginLeft: 110, marginVertical: 6 }}
+                    source={require('../Images/rectangle.png')}
+                  />
+                </TouchableOpacity>
+              </View>)
+              : (<View>
+                <TouchableOpacity onPress={() => this.getClick()}>
+                  <Image
+                    style={{ width: 30, height: 30, marginLeft: 110, marginVertical: 6 }}
+                    source={require('../Images/squar.png')}
+                  />
+                </TouchableOpacity>
+              </View>)
+          }
           <TouchableOpacity >
             <Image
               style={{ width: 30, height: 30, marginLeft: 15, marginVertical: 6 }}
@@ -47,40 +98,38 @@ export default class HomePage extends Component {
 
         </View>
 
+
         <View style={styles.container}>
-          <Text style={styles.editText}> hello Your success to logged in/ singup !!! </Text>
-        </View>
+          <View style={styles.container2}>
 
-        <View style={styles.container2}>
+            <TouchableOpacity >
+              <Text style={styles.inputBox} onPress={() => this.createNote()}>Take a Note ...</Text>
+            </TouchableOpacity>
 
-          <TextInput
-            style={styles.inputBox}
-            placeholder='Take your notes'
-            placeholderTextColor='black'
-          />
-          <TouchableOpacity >
-            <Image
-              style={{ width: 20, height: 20, marginHorizontal: 15, marginVertical: 10 }}
-              source={require('../Images/checked.png')}
-            /></TouchableOpacity>
-          <TouchableOpacity >
-            <Image
-              style={{ width: 20, height: 20, marginHorizontal: 15, marginVertical: 10 }}
-              source={require('../Images/brush.png')}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity >
-            <Image
-              style={{ width: 20, height: 20, marginHorizontal: 15, marginVertical: 10 }}
-              source={require('../Images/mic.png')}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity >
-            <Image
-              style={{ width: 20, height: 20, marginHorizontal: 15, marginVertical: 10 }}
-              source={require('../Images/gallery.png')}
-            />
-          </TouchableOpacity>
+            <TouchableOpacity >
+              <Image
+                style={{ width: 20, height: 20, marginHorizontal: 15, marginVertical: 10 }}
+                source={require('../Images/checked.png')}
+              /></TouchableOpacity>
+            <TouchableOpacity >
+              <Image
+                style={{ width: 20, height: 20, marginHorizontal: 15, marginVertical: 10 }}
+                source={require('../Images/brush.png')}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity >
+              <Image
+                style={{ width: 20, height: 20, marginHorizontal: 15, marginVertical: 10 }}
+                source={require('../Images/mic.png')}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity >
+              <Image
+                style={{ width: 20, height: 20, marginHorizontal: 15, marginVertical: 10 }}
+                source={require('../Images/gallery.png')}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
 
@@ -91,8 +140,8 @@ export default class HomePage extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 261,
-    alignItems: 'center',
+    paddingTop: 550,
+
   },
   container1: {
     flexDirection: 'row',
@@ -108,20 +157,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
     height: 40,
-    width: 410,
+    width: '100%',
 
     backgroundColor: 'rgba(192,192,192,1)',
   },
 
-  editText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
   inputBox: {
     marginRight: 90,
+    marginVertical: 10,
+    fontWeight: 'bold',
   },
 
   textEdit: {
     marginVertical: 10,
+    fontWeight: 'bold',
   },
 });

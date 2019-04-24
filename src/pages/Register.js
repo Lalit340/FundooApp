@@ -81,7 +81,7 @@ class SingupPage extends Component {
                 this.state.lastName, this.state.mobNo, this.state.dob);
         }
         if (data) {
-            this.props.navigation.navigate('Dash');
+            this.props.navigation.navigate('Login');
         }
     }
 

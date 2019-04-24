@@ -1,25 +1,26 @@
 import React, { Component } from 'react';
 import { createDrawerNavigator, createAppContainer } from 'react-navigation';
 import DashBoard from '../pages/DashBoard';
-import Notes from '../pages/SearchNote';
 import AntDesign from 'react-native-vector-icons/AntDesign'
-
+import Log from '../pages/LogOut'
 
 const drawerNavigator = createDrawerNavigator({
     DashBoard: { 
         screen: DashBoard,
         navigationOptions : {
           drawerLabel : 'Home',
-          drawerIcon :<AntDesign name="home" size={30} color="#004d40" marginTop ='0' />
+          drawerIcon :<AntDesign name="home" size={30} color="green" marginTop ='0' />,
         },
       },
-    Note: {
-         screen: Notes ,
-         navigationOptions : {
-            drawerLabel : 'Notes',
-          },
-    },
-},
+     Log : {
+       screen : Log ,
+       navigationOptions : {
+         drawerLabel : 'Signout',
+         drawerIcon :<AntDesign name="logout" size={30} color="green" marginTop ='0' />,
+       }
+     }
+  
+ },
     {
         initialRouteName: 'DashBoard',
         contentOptions: {
@@ -28,7 +29,7 @@ const drawerNavigator = createDrawerNavigator({
             labelStyle :'normal', 
         },
         drawerPosition: 'left',
-        order: ['DashBoard' ,'Note'],
+      order: ['DashBoard' ,'Log'],
         
        // drawerBackgroundColor: 'orange',
     });
