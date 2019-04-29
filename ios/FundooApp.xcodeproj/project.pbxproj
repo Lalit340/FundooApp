@@ -59,6 +59,7 @@
 		DAB224E33F4C468FAAE8A9C2 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2253D0D69F4443BEB6D1B65B /* Octicons.ttf */; };
 		B6D560A660EE42F9988A51E7 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9F03CC90CA794D57A2AC1998 /* SimpleLineIcons.ttf */; };
 		DD0D978389544C35B67A83B3 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 95779A588A4542B9AB939BBA /* Zocial.ttf */; };
+		D4FF421DC7E042C8A5546666 /* libRNLocalNotifications.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5254DFB332A84446969EFC04 /* libRNLocalNotifications.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -389,6 +390,8 @@
 		2253D0D69F4443BEB6D1B65B /* Octicons.ttf */ = {isa = PBXFileReference; name = "Octicons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		9F03CC90CA794D57A2AC1998 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		95779A588A4542B9AB939BBA /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		EA278B0BC55A4B7FBBE451EC /* RNLocalNotifications.xcodeproj */ = {isa = PBXFileReference; name = "RNLocalNotifications.xcodeproj"; path = "../node_modules/react-native-local-notifications/ios/RNLocalNotifications.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		5254DFB332A84446969EFC04 /* libRNLocalNotifications.a */ = {isa = PBXFileReference; name = "libRNLocalNotifications.a"; path = "libRNLocalNotifications.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -420,6 +423,7 @@
 				A88F639DB4AF4E3E88CE4EF5 /* libRNGestureHandler.a in Frameworks */,
 				9BB59532039543CB94FD9952 /* libRNFirebase.a in Frameworks */,
 				19ADEF335625498BBF7C90DF /* libRNVectorIcons.a in Frameworks */,
+				D4FF421DC7E042C8A5546666 /* libRNLocalNotifications.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -614,6 +618,7 @@
 				5491B0EBDF1740D99267412A /* RNGestureHandler.xcodeproj */,
 				5A5D3F5394B942B5BCC42538 /* RNFirebase.xcodeproj */,
 				C3B8F1B1CF8E47A0B9EDCF2B /* RNVectorIcons.xcodeproj */,
+				EA278B0BC55A4B7FBBE451EC /* RNLocalNotifications.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1285,6 +1290,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1312,6 +1318,7 @@
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FundooApp.app/FundooApp";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1406,6 +1413,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1441,6 +1449,7 @@
 				TVOS_DEPLOYMENT_TARGET = 9.2;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1485,6 +1494,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1519,6 +1529,7 @@
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",

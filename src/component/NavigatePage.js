@@ -7,6 +7,7 @@ import regPage from '../pages/Register';
 import Notes from '../pages/SearchNote';
 import Drawer from './NavigationDrawer';
 import Create from '../pages/CreateNote'
+import Display from './CardComponent';
 
 const pages = createStackNavigator({
     Login: { screen: LoginPage },
@@ -15,6 +16,7 @@ const pages = createStackNavigator({
     Note: { screen: Notes },
     Drawer: { screen: Drawer, navigationOptions: { header: null }, },
     Create: { screen: Create },
+    Display:{screen:Display}
 },
     {
         initialRouteName: 'Login',

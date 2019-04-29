@@ -19,9 +19,9 @@ export default class Display extends Component {
         }
     }
 
-    longPress() {
-        this.setState({ click: !(this.state.click) });
-    }
+    // longPress() {
+    //     this.setState({ click: !(this.state.click) });
+    // }
  
 
     render() {
@@ -29,13 +29,16 @@ export default class Display extends Component {
         var take = this.props.view ? (style.view1) : (style.view2);
         return (
             <View style={take}>  
-                    <Card containerStyle={{ backgroundColor: 'brown', borderRadius: 10 }}>
+                    <Card containerStyle={{ backgroundColor: '#ffff', borderRadius: 10 }}>
                         <View>
                             <View style={{ padding: 8 }}>
                                 <Text>{this.props.display.title}</Text>
                             </View>
                             <View style={{ padding: 8 }}>
                                 <Text>{this.props.display.note}</Text>
+                            </View>
+                            <View style={{ padding: 8 }}>
+                                <Text>{this.props.display.reminder}</Text>
                             </View>
                         </View>
                     </Card>

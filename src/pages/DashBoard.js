@@ -4,6 +4,8 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { DrawerActions } from 'react-navigation-drawer';
 import { getData } from '../Implementation';
 import Display from '../component/CardComponent';
+import { ScrollView } from 'react-native-gesture-handler';
+import RNLocalNotifications from 'react-native-local-notifications';
 
 
 
@@ -12,7 +14,7 @@ export default class HomePage extends Component {
   constructor() {
     super();
     this.state = {
-      click: false,
+      click: true,
       note: [],
     }
   }
@@ -28,18 +30,20 @@ export default class HomePage extends Component {
   }
 
   componentDidMount() {
+     //RNLocalNotifications.createNotification(1, 'Some text', '2019-04-27 05:10', 'default');
 
-    getData(arr => {
+    getData((arr) => {
+      console.warn(arr);
       if (arr) {
         this.setState({
-          note: arr,
-        })
+          note: arr,   
+        });
       } else {
         this.setState({
           note: [],
-        })
+        });
       }
-    })
+    });
 
   }
   render() {
@@ -97,38 +101,48 @@ export default class HomePage extends Component {
           </TouchableOpacity>
 
         </View>
+         
+        <ScrollView>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+            {arrData}
+          </View>
+        </ScrollView>
 
+        <View style={{ flex: 1 }}></View>
 
-        <View style={styles.container}>
-          <View style={styles.container2}>
+        <View>
+          <View style={styles.container} >
 
-            <TouchableOpacity >
-              <Text style={styles.inputBox} onPress={() => this.createNote()}>Take a Note ...</Text>
-            </TouchableOpacity>
+            <View style={styles.container2}>
 
-            <TouchableOpacity >
-              <Image
-                style={{ width: 20, height: 20, marginHorizontal: 15, marginVertical: 10 }}
-                source={require('../Images/checked.png')}
-              /></TouchableOpacity>
-            <TouchableOpacity >
-              <Image
-                style={{ width: 20, height: 20, marginHorizontal: 15, marginVertical: 10 }}
-                source={require('../Images/brush.png')}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity >
-              <Image
-                style={{ width: 20, height: 20, marginHorizontal: 15, marginVertical: 10 }}
-                source={require('../Images/mic.png')}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity >
-              <Image
-                style={{ width: 20, height: 20, marginHorizontal: 15, marginVertical: 10 }}
-                source={require('../Images/gallery.png')}
-              />
-            </TouchableOpacity>
+              <TouchableOpacity >
+                <Text style={styles.inputBox} onPress={() => this.createNote()}>Take a Note ...</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity >
+                <Image
+                  style={{ width: 20, height: 20, marginHorizontal: 15, marginVertical: 10 }}
+                  source={require('../Images/checked.png')}
+                /></TouchableOpacity>
+              <TouchableOpacity >
+                <Image
+                  style={{ width: 20, height: 20, marginHorizontal: 15, marginVertical: 10 }}
+                  source={require('../Images/brush.png')}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity >
+                <Image
+                  style={{ width: 20, height: 20, marginHorizontal: 15, marginVertical: 10 }}
+                  source={require('../Images/mic.png')}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity >
+                <Image
+                  style={{ width: 20, height: 20, marginHorizontal: 15, marginVertical: 10 }}
+                  source={require('../Images/gallery.png')}
+                />
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </View>
@@ -140,7 +154,9 @@ export default class HomePage extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 550,
+    position: 'relative',
+    bottom: 0,
+
 
   },
   container1: {

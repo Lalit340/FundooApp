@@ -2,12 +2,18 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native';
 import { logOut } from '../Implementation';
 
+import Dialog from "react-native-dialog";
 
 
 
 export default class Note extends Component {
 
-    
+    constructor() {
+        super();
+        this.state = {
+            dialog: true,
+        }
+    }
 
     mainPage() {
         logOut();
@@ -16,78 +22,22 @@ export default class Note extends Component {
 
     back() {
         this.props.navigation.goBack();
+        this.setState({
+            dialog : false ,
+        })
     }
 
     render() {
         return (
             <View>
-                <View style={styles.container}>
-                    <TouchableOpacity onPress={() => this.back()}>
-                        <Image
-                            style={{ width: 25, height: 25, marginHorizontal: 15, marginVertical: 6 }}
-                            source={require('../Images/leftArrow.png')}
-                        />
-                    </TouchableOpacity>
-
-                </View>
-
-                <View style={styles.container1}>
-                    <Text style={styles.textEdit}> Do you want to SignOut this page?</Text>
-                    <View style={styles.container2}>
-                        <TouchableOpacity >
-                            <Text style={styles.textEdit1} onPress={() => this.mainPage()}>Yes</Text>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity >
-                            <Text style={styles.textEdit1} onPress={() => this.back()}>No</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-
-
-
+                <Dialog.Container visible={true}>
+                    <Dialog.Description>
+                        Do you want to logout this account?
+                        </Dialog.Description>
+                    <Dialog.Button label="no" onPress={() => this.back()} />
+                    <Dialog.Button label="Yes" onPress={() => this.mainPage()} />
+                </Dialog.Container>
             </View>
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-       
-        flexDirection: 'row',
-        height: 40,
-
-
-    },
-    container1: {
-        marginVertical : 250,
-        justifyContent: 'center',
-        alignItems: 'center',
-
-    },
-    container2: {
-        flexDirection: 'row',
-        marginVertical : 15,
-
-    },
-
-
-    textEdit: {
-
-        fontSize: 15,
-        fontWeight: 'bold',
-    },
-    textEdit1: {
-        width : 40 ,
-        height : 25 ,
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: 'black',
-        backgroundColor: 'brown',
-        marginHorizontal : 25 ,
-        textAlign : 'center' ,
-       
-    }
-
-
-});

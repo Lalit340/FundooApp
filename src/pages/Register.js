@@ -12,6 +12,7 @@ import {
 import { ScrollView } from 'react-native-gesture-handler';
 
 import register from '../Implementation';
+import saveData from '../AsyncStorage';
 
 
 
@@ -57,7 +58,7 @@ class SingupPage extends Component {
             alert('UserName is needed');
         else if (user.indexOf('@') == -1 && user.indexOf('.com') == -1)
             alert('enter a valid username');
-        else if (pwd.trim() == '' )
+        else if (pwd.trim() == '')
             alert('password  is needed');
         else if (pwd !== pwd1 && pwd.length < 8)
             alert('insert a valid password ')
@@ -78,6 +79,9 @@ class SingupPage extends Component {
         var check = this.validation();
         if (check) {
             var data = register(this.state.user, this.state.pwd, this.state.firstName,
+                this.state.lastName, this.state.mobNo, this.state.dob);
+
+            saveData(this.state.user, this.state.pwd, this.state.firstName,
                 this.state.lastName, this.state.mobNo, this.state.dob);
         }
         if (data) {
@@ -102,7 +106,7 @@ class SingupPage extends Component {
                     <TextInput
                         style={styles.textBox}
                         placeholder='enter First Name '
-                        placeholderTextColor='#ffffff'
+                        placeholderTextColor='#ffff'
                         onChangeText={(firstName) => this.setState({ firstName })}
                         value={this.state.firstName}
                     />
@@ -141,7 +145,7 @@ class SingupPage extends Component {
                     <TextInput
                         style={styles.textBox}
                         placeholder='enter password '
-                        placeholderTextColor='#ffffff'
+                        placeholderTextColor='#fff'
                         secureTextEntry={true}
                         onChangeText={(pwd) => this.setState({ pwd })}
                         value={this.state.pwd}
@@ -150,7 +154,7 @@ class SingupPage extends Component {
                     <TextInput
                         style={styles.textBox}
                         placeholder='enter password '
-                        placeholderTextColor='#ffffff'
+                        placeholderTextColor='#fff'
                         secureTextEntry={true}
                         onChangeText={(pwd1) => this.setState({ pwd1 })}
                         value={this.state.pwd1}
@@ -213,7 +217,8 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         marginVertical: 10,
         paddingHorizontal: 20,
-        backgroundColor: 'rgba(0,0,0,0.3)'
+        backgroundColor: 'rgba(0,0,0,0.3)',
+        color : '#ffffff',
     },
 
     buttonEdit: {

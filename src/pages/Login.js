@@ -9,7 +9,7 @@ import {
     Image,
 } from 'react-native';
 
-import { signinPage } from '../Implementation';
+import { signinPage, getLogin } from '../Implementation';
 
 
 
@@ -51,14 +51,20 @@ class LoginPage extends Component {
 
     }
 
-    sign() {
+    async sign() {
         var validate = this.signInValidation();
-        if (validate) {
-            var data = signinPage(this.state.user, this.state.pwd);
+        var compare = getLogin(this.state.user, this.state.pwd);
+        if (compare) {
+            if (validate) {
+                var data = signinPage(this.state.user, this.state.pwd);
+            }
+            if (data) {
+                this.props.navigation.navigate('Drawer');
+            }
+        } else {
+            alert('Enter a currect Username & password');
         }
-        if (data) {
-            this.props.navigation.navigate('Drawer');
-        }
+
     }
 
     render() {
@@ -139,7 +145,8 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         marginVertical: 10,
         paddingHorizontal: 20,
-        backgroundColor: 'rgba(0,0,0,0.3)'
+        backgroundColor: 'rgba(0,0,0,0.3)',
+        color: 'white',
     },
     container2: {
         flexDirection: 'row',

@@ -3,6 +3,7 @@ package com.fundooapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.github.wumke.RNLocalNotifications.RNLocalNotificationsPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
@@ -26,6 +27,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNLocalNotificationsPackage(),
             new VectorIconsPackage(),
             new RNFirebasePackage(),
             new RNGestureHandlerPackage()
