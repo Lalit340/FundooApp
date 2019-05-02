@@ -9,7 +9,7 @@ import {
     Image,
 } from 'react-native';
 
-import { signinPage, getLogin } from '../Implementation';
+import { signinPage, saveData } from '../Implementation';
 
 
 
@@ -53,18 +53,15 @@ class LoginPage extends Component {
 
     async sign() {
         var validate = this.signInValidation();
-        var compare = getLogin(this.state.user, this.state.pwd);
-        if (compare) {
+         saveData(this.state.user, this.state.pwd);
+       
             if (validate) {
                 var data = signinPage(this.state.user, this.state.pwd);
             }
             if (data) {
                 this.props.navigation.navigate('Drawer');
             }
-        } else {
-            alert('Enter a currect Username & password');
-        }
-
+      
     }
 
     render() {
@@ -83,7 +80,9 @@ class LoginPage extends Component {
                     style={styles.textBox}
                     placeholder='enter userId '
                     placeholderTextColor='#ffffff'
+                    
                     onChangeText={(user) => this.setState({ user })}
+                    onSubmitEditing={() => this.pwd.focus()}
                     value={this.state.user}
                 />
 
@@ -92,17 +91,20 @@ class LoginPage extends Component {
                     placeholder='enter password '
                     placeholderTextColor='#ffffff'
                     secureTextEntry={true}
+                    ref={(input) => this.pwd = input}
                     onChangeText={(pwd) => this.setState({ pwd })}
+                    
+
                     value={this.state.pwd}
                 />
-
-                <TouchableOpacity >
-                    <Text style={styles.textPassword} >Forgotten Password ?</Text>
-                </TouchableOpacity>
-
+                <View  style={{marginRight : 120}}>
+                    <TouchableOpacity >
+                        <Text style={styles.textPassword} >Forgotten Password ?</Text>
+                    </TouchableOpacity>
+                </View>
                 <View style={styles.container2}>
-                    <TouchableOpacity style={styles.buttonEdit}>
-                        <Text style={styles.textEdit} onPress={() => this.sign()}>Signin</Text>
+                    <TouchableOpacity style={styles.buttonEdit} onPress={() => this.sign()}>
+                        <Text style={styles.textEdit} >Signin</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.buttonEdit} onPress={() => { this.getSignup() }} >
@@ -171,7 +173,7 @@ const styles = StyleSheet.create({
     },
 
     textPassword: {
-        marginVertical: 15,
+        marginVertical: 10,
         color: 'lightgreen',
     },
 })

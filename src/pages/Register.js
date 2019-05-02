@@ -108,15 +108,19 @@ class SingupPage extends Component {
                         placeholder='enter First Name '
                         placeholderTextColor='#ffff'
                         onChangeText={(firstName) => this.setState({ firstName })}
+                        //onSubmitEditing={() => this.pwd1.facus()}
                         value={this.state.firstName}
+                        
                     />
 
                     <TextInput
                         style={styles.textBox}
                         placeholder='enter Last Name '
                         placeholderTextColor='#ffffff'
-                        onChangeText={(lastName) => this.setState({ lastName })}
+                        //ref={(input) => this.pwd1 = input}
+                        onChangeText={(lastName) => this.setState({ lastName })}         
                         value={this.state.lastName}
+                        
                     />
 
                     <TextInput
@@ -160,8 +164,8 @@ class SingupPage extends Component {
                         value={this.state.pwd1}
                     />
 
-                    <TouchableOpacity style={styles.buttonEdit}>
-                        <Text style={styles.textEdit} onPress={() => this.getLoggedIn()} >Register</Text>
+                    <TouchableOpacity style={styles.buttonEdit} onPress={() => this.getLoggedIn()}>
+                        <Text style={styles.textEdit}  >Register</Text>
                     </TouchableOpacity>
 
                     <View style={styles.container2}>

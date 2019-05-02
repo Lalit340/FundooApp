@@ -24,13 +24,13 @@ export default class Note extends Component {
         this.props.navigation.goBack();
         this.setState({
             dialog : false ,
-        })
+        });
     }
 
     render() {
         return (
             <View>
-                <Dialog.Container visible={true}>
+                <Dialog.Container visible={this.state.dialog}>
                     <Dialog.Description>
                         Do you want to logout this account?
                         </Dialog.Description>

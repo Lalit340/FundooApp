@@ -4,7 +4,8 @@ import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'reac
 import { createNotes } from '../Implementation';
 import DateTimePicker from "react-native-modal-datetime-picker";
 import Dialog from 'react-native-dialog';
-
+import { ScrollView } from 'react-native-gesture-handler';
+import Modal from "react-native-modal";
 
 
 
@@ -15,30 +16,31 @@ export default class CreateNotes extends Component {
     constructor() {
         super();
         this.state = {
-            click: false,
+            click: true,
             title: '',
             note: '',
-            reminder : '',
-            dialogLog : false,
+            reminder: '',
+            dialogLog: false,
             DatePickerVisible: false,
             TimePickerVisible: false,
+            visible: false,
 
         }
     }
 
     handleDatePicker = (date) => {
-         var d = ''+date;
-         var dt = d.slice(4 ,10);
+        var d = '' + date;
+        var dt = d.slice(4, 10);
         this.setState({
-            date : dt ,
+            date: dt,
         });
         this.hideDatePicker();
     }
     handleTimePicker = (time) => {
-        var t = '' +time ;
-        var tm = t.slice(16 ,21);
+        var t = '' + time;
+        var tm = t.slice(16, 21);
         this.setState({
-            time : tm ,  
+            time: tm,
         });
         this.hideTimePicker();
     }
@@ -53,15 +55,15 @@ export default class CreateNotes extends Component {
             TimePickerVisible: false,
         });
     }
-    save = () =>{
-        var data = this.state.date+'   '+this.state.time ;
+    save = () => {
+        var data = this.state.date + '   ' + this.state.time;
         this.setState({
-            reminder : data,
+            reminder: data,
             dialogLog: false,
         });
     }
 
-    cancel = () =>{
+    cancel = () => {
         this.setState({
             dialogLog: false,
         });
@@ -83,7 +85,7 @@ export default class CreateNotes extends Component {
         });
     }
 
-    
+
     getPin() {
         this.setState({ click: !(this.state.click) });
     }
@@ -102,17 +104,22 @@ export default class CreateNotes extends Component {
     back() {
         var valid = this.validation();
         if (valid) {
-            createNotes(this.state.title, this.state.note ,this.state.reminder);
+            createNotes(this.state.title, this.state.note, this.state.reminder);
             this.props.navigation.navigate('Drawer');
         } else
             this.props.navigation.navigate('Drawer');
 
     }
+    getModel() {
+        this.setState({
+            visible: true,
+        });
+    }
 
 
     render() {
         return (
-            <View>
+            <View style={{ flex: 1 }}>
                 <View style={styles.container}>
                     <TouchableOpacity onPress={() => this.back()}>
                         <Image
@@ -157,25 +164,25 @@ export default class CreateNotes extends Component {
                                 <TouchableOpacity>
                                     <Text style={{ fontSize: 15, fontWeight: 'bold', marginVertical: 8 }} onPress={this.showDate}>Enter Date</Text>
                                 </TouchableOpacity>
-                                 <Text style={{fontSize :12 , color : 'green'}}>{this.state.date}</Text>
+                                <Text style={{ fontSize: 12, color: 'green' }}>{this.state.date}</Text>
                                 <DateTimePicker
                                     isVisible={this.state.DatePickerVisible}
                                     onConfirm={this.handleDatePicker}
                                     onCancel={this.hideDatePicker}
-                                    
+
                                 />
                             </View>
                             <View>
                                 <TouchableOpacity>
                                     <Text style={{ fontSize: 15, fontWeight: 'bold', marginVertical: 8 }} onPress={this.showTime}>Enter Time</Text>
                                 </TouchableOpacity>
-                                <Text style={{fontSize :12 , color : 'green'}}>{this.state.time}</Text>
+                                <Text style={{ fontSize: 12, color: 'green' }}>{this.state.time}</Text>
                                 <DateTimePicker
                                     isVisible={this.state.TimePickerVisible}
                                     onConfirm={this.handleTimePicker}
                                     onCancel={this.hideTimePicker}
                                     mode={'time'}
-                                    is24Hour = {false}
+                                    is24Hour={false}
                                 />
                             </View>
 
@@ -191,24 +198,109 @@ export default class CreateNotes extends Component {
                         />
                     </TouchableOpacity>
                 </View>
-
-                <View >
-                    <TextInput
-                        style={{ width: 300, paddingTop: 20, marginLeft: 20, fontWeight: 'bold', fontSize: 25 }}
-                        placeholder='Title'
-                        onChangeText={(title) => this.setState({ title })}
-                        value={this.state.title}
-                    />
-                    <TextInput
-                        style={{ width: 300, marginVertical: 5, marginLeft: 25, fontWeight: 'bold', fontSize: 15 }}
-                        placeholder='Notes'
-                        onChangeText={(note) => this.setState({ note })}
-                        value={this.state.note}
-                        multiline={true}
-                    />
+                <ScrollView>
+                    <View >
+                        <TextInput
+                            style={{ width: 300, paddingTop: 20, marginLeft: 20, fontWeight: 'bold', fontSize: 20 }}
+                            placeholder='Title'
+                            onChangeText={(title) => this.setState({ title })}
+                            onSubmitEditing={() => this.note.focus()}
+                            value={this.state.title}
+                        />
+                        <TextInput
+                            style={{ width: 300, marginVertical: 5, marginLeft: 25, fontWeight: 'bold', fontSize: 15 }}
+                            placeholder='Notes'
+                            onChangeText={(note) => this.setState({ note })}
+                            ref={(input) => this.note = input}
+                            value={this.state.note}
+                            multiline={true}
+                        />
+                    </View>
+                    <Text style={{ fontSize: 20, color: 'green', marginLeft: 20 }}>{this.state.reminder}</Text>
+                </ScrollView>
+                <View style={{ flex: 1 }}></View>
+                <View style={styles.container}>
+                    <TouchableOpacity>
+                        <Image
+                            style={{ width: 25, height: 25, marginLeft: 10, marginVertical: 6 }}
+                            source={require('../Images/plus.png')}
+                        />
+                    </TouchableOpacity>
+                    <Text>                                                                                                    </Text>
+                    <TouchableOpacity onPress={() => this.getModel()}>
+                        <Image
+                            style={{ width: 25, height: 25, marginVertical: 6 }}
+                            source={require('../Images/dot_menu.png')}
+                        />
+                    </TouchableOpacity>
                 </View>
-                 <Text style={{fontSize:20 , color : 'green' , marginLeft : 20}}>{this.state.reminder}</Text>
 
+                <View>
+                    <Modal style={{ marginTop: 330 }}
+                        isVisible={this.state.visible}
+                        deviceHeight={320}
+                        deviceWidth={420}
+                        onBackdropPress={() => this.setState({ visible: false })}
+                    >
+                        <View style={{ flex: 1 }}>
+                            <TouchableOpacity>
+                                <View style={{ flexDirection: 'row', marginTop: 10 }}>
+
+                                    <Image
+                                        style={{ width: 30, height: 30, color: 'black', }}
+                                        source={require('../Images/delete.png')}
+                                    />
+                                    <Text style={{ marginHorizontal: 10, fontSize: 25 }}> Delete</Text>
+
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity>
+                                <View style={{ flexDirection: 'row', marginTop: 15 }}>
+
+                                    <Image
+                                        style={{ width: 30, height: 30, color: 'black', }}
+                                        source={require('../Images/copy.png')}
+                                    />
+                                    <Text style={{ marginHorizontal: 10, fontSize: 25 }}> Make a copy </Text>
+
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity>
+                                <View style={{ flexDirection: 'row', marginTop: 15 }}>
+
+                                    <Image
+                                        style={{ width: 30, height: 30, color: 'black', }}
+                                        source={require('../Images/send.png')}
+                                    />
+                                    <Text style={{ marginHorizontal: 10, fontSize: 25 }}> Send</Text>
+
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity>
+                                <View style={{ flexDirection: 'row', marginTop: 15 }}>
+
+                                    <Image
+                                        style={{ width: 30, height: 30, color: 'black', }}
+                                        source={require('../Images/delete.png')}
+                                    />
+                                    <Text style={{ marginHorizontal: 10, fontSize: 25 }}> Collaborator </Text>
+
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity>
+                                <View style={{ flexDirection: 'row', marginTop: 15 }}>
+
+                                    <Image
+                                        style={{ width: 30, height: 30, color: 'black', }}
+                                        source={require('../Images/label.png')}
+                                    />
+                                    <Text style={{ marginHorizontal: 10, fontSize: 25 }}> Labels</Text>
+
+                                </View>
+                            </TouchableOpacity>
+                        </View>
+                    </Modal>
+                </View>
             </View>
         );
     }
@@ -220,11 +312,6 @@ const styles = StyleSheet.create({
         height: 40,
 
 
-    },
-    separetor: {
-        height: 1,
-        width: '100%',
-        backgroundColor: 'rgba(192,192,192,192)',
     },
 
 });

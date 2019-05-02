@@ -31,7 +31,7 @@ export default async function register(email, password, fname, lname, mobno, dob
 };
 
 export async function signinPage(email, password) {
-   var check= await firebase.firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
+    var check = await firebase.firebase.auth().signInWithEmailAndPassword(email, password).then(() => {
         console.log('logged in');
     }).catch(function (error) {
         if (error) {
@@ -39,8 +39,8 @@ export async function signinPage(email, password) {
             return error;
         }
     });
-    if(check){
-        return check ;
+    if (check) {
+        return check;
     }
 
 };
@@ -80,8 +80,8 @@ export async function getData(callback) {
 
     console.warn(user + " current user")
 
-    var emai = user.email;
-    await Firebase.database.ref('UserNote').orderByChild('email').equalTo(emai).on("value", snap => {
+    var email = user.email;
+    await Firebase.database.ref('UserNote').orderByChild('email').equalTo(email).on("value", snap => {
         var data = snap.val()
 
         return callback(data)
@@ -90,24 +90,20 @@ export async function getData(callback) {
 
 }
 
-export async function getLogin(username, pwd) {
-    var d = await Firebase.database.ref('UsersInfo').orderByChild('email').equalTo(username).on('value', snap => {
+export async function saveData(username, pwd) {
+    await Firebase.database.ref('UsersInfo').orderByChild('email').equalTo(username).on('value', snap => {
         snap.forEach(function (snap) {
-            var emai = snap.child('email').val();
-            var password = snap.child('password').val();
+            var email = snap.child('email').val();
+            var key = snap.key;
             var arr = {
-                email: emai,
-                password: password,
+                email: email,
+                key: key,
             }
 
             AsyncStorage.setItem('data', JSON.stringify(arr));
 
         })
-        if (d) {
-            return true;
-        } else {
-            return false;
-        }
+
 
     });
 

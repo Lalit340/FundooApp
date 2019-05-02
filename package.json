@@ -16,6 +16,7 @@
     "react-native-firebase": "^5.3.1",
     "react-native-gesture-handler": "^1.1.0",
     "react-native-local-notifications": "^2.0.0",
+    "react-native-modal": "^10.0.0",
     "react-native-modal-datetime-picker": "^7.4.0",
     "react-navigation": "^3.8.1"
   },
