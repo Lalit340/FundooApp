@@ -1,10 +1,52 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView } from 'react-native';
 
-import { createNotes } from '../Implementation';
+import { editNotes, editReminder, editArchive, updatePin, editTrash, editColor } from '../Implementation';
 import DateTimePicker from "react-native-modal-datetime-picker";
 import Dialog from 'react-native-dialog';
-import { ScrollView } from 'react-native-gesture-handler';
+import Modal from "react-native-modal";
+import { FlatList } from 'react-native-gesture-handler';
+
+const colorBox = [
+    {
+        colorCode: "#fffff",
+        colorName: "white"
+    },
+    {
+        colorCode: "#e57373",
+        colorName: "red"
+    },
+    {
+        colorCode: "#7e57c2",
+        colorName: "deepPurple"
+    },
+    {
+        colorCode: "#0277bd",
+        colorName: "lightBlue"
+    },
+    {
+        colorCode: "#81c784",
+        colorName: "green"
+    },
+    {
+        colorCode: "#fff176",
+        colorName: "yellow"
+    },
+    {
+        colorCode: "#ff7043",
+        colorName: "deepOrange"
+    },
+    {
+        colorCode: "#78909c",
+        colorName: "blueGrey"
+    },
+    {
+        colorCode: "#8d6e63",
+        colorName: "brown"
+    },
+
+]
+
 
 export default class Editor extends Component {
     static navigationOptions = { header: null };
@@ -15,10 +57,14 @@ export default class Editor extends Component {
             title: this.props.navigation.state.params.Show.title,
             note: this.props.navigation.state.params.Show.note,
             reminder: this.props.navigation.state.params.Show.reminder,
-            click: true,
+            click: this.props.navigation.state.params.Show.pin,
             dialogLog: false,
             DatePickerVisible: false,
             TimePickerVisible: false,
+            visible: false,
+            trash: false,
+            archive: false,
+            color: this.props.navigation.state.params.Show.color,
         }
     }
 
@@ -98,11 +144,36 @@ export default class Editor extends Component {
     back() {
         var valid = this.validation();
         if (valid) {
-            createNotes(this.state.title, this.state.note, this.state.reminder);
+            editNotes(this.state.title, this.state.note, this.props.navigation.state.params.Show, this.props.navigation.state.params.notekey);
+            editReminder(this.state.reminder, this.props.navigation.state.params.Show, this.props.navigation.state.params.notekey);
+            updatePin(this.state.click, this.props.navigation.state.params.Show, this.props.navigation.state.params.notekey);
+            editTrash(this.state.trash, this.props.navigation.state.params.Show, this.props.navigation.state.params.notekey);
+            editArchive(this.state.archive, this.props.navigation.state.params.Show, this.props.navigation.state.params.notekey);
+            editColor(this.state.color, this.props.navigation.state.params.Show, this.props.navigation.state.params.notekey);
             this.props.navigation.navigate('Drawer');
         } else
             this.props.navigation.navigate('Drawer');
 
+    }
+
+    getModel() {
+        this.setState({
+            visible: true,
+        });
+    }
+
+    setDelete() {
+        this.setState({
+            trash: true
+        })
+
+    }
+    handleArchive() {
+        this.setState({ archive: !(this.state.archive) });
+    }
+
+    handleColor(color) {
+        this.setState({ color: color });
     }
 
 
@@ -123,7 +194,7 @@ export default class Editor extends Component {
                                 <TouchableOpacity onPress={() => this.getPin()}>
                                     <Image
                                         style={{ width: 25, height: 25, marginLeft: 230, marginVertical: 6 }}
-                                        source={require('../Images/pin.png')}
+                                        source={require('../Images/unpin.png')}
                                     />
                                 </TouchableOpacity>
                             </View>)
@@ -131,7 +202,7 @@ export default class Editor extends Component {
                                 <TouchableOpacity onPress={() => this.getPin()}>
                                     <Image
                                         style={{ width: 25, height: 25, marginLeft: 230, marginVertical: 6 }}
-                                        source={require('../Images/unpin.png')}
+                                        source={require('../Images/pin.png')}
                                     />
                                 </TouchableOpacity>
                             </View>)
@@ -180,10 +251,10 @@ export default class Editor extends Component {
                         </Dialog.Container>
                     </View>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.handleArchive()}>
                         <Image
                             style={{ width: 20, height: 20, marginLeft: 15, marginVertical: 6 }}
-                            source={require('../Images/achieve.png')}
+                            source={require('../Images/archive.png')}
                         />
                     </TouchableOpacity>
                 </View>
@@ -203,26 +274,107 @@ export default class Editor extends Component {
                             multiline={true}
                         />
                     </View>
-
-                    <Text style={{ fontSize: 20, color: 'green', marginLeft: 20 }}>{this.state.reminder}</Text>
+                    <TouchableOpacity onPress={this.showDialog}>
+                        <Text style={{ fontSize: 20, color: 'green', marginLeft: 20 }}>{this.state.reminder}</Text>
+                    </TouchableOpacity>
                 </ScrollView>
                 <View style={{ flex: 1 }}></View>
                 <View style={styles.container}>
-                <TouchableOpacity>
-                    <Image
-                        style={{ width: 25, height: 25, marginLeft: 10, marginVertical: 6 }}
-                        source={require('../Images/plus.png')}
-                    />
-                   </TouchableOpacity>
-                   <Text>                                                                                                    </Text>
-                   <TouchableOpacity>
-                    <Image
-                        style={{ width: 25, height: 25,  marginVertical: 6  }}
-                        source={require('../Images/dot_menu.png')}
-                    />
+                    <TouchableOpacity>
+                        <Image
+                            style={{ width: 25, height: 25, marginLeft: 10, marginVertical: 6 }}
+                            source={require('../Images/plus.png')}
+                        />
+                    </TouchableOpacity>
+                    <Text>                                                                                                    </Text>
+                    <TouchableOpacity onPress={() => this.getModel()}>
+                        <Image
+                            style={{ width: 25, height: 25, marginVertical: 6 }}
+                            source={require('../Images/dot_menu.png')}
+                        />
                     </TouchableOpacity>
                 </View>
-            </View>
+
+                <View>
+                    <Modal style={{ marginTop: 320 }}
+                        isVisible={this.state.visible}
+                        deviceHeight={310}
+                        deviceWidth={420}
+                        onBackdropPress={() => this.setState({ visible: false })}
+                    >
+                        <View style={{ flex: 1 }}>
+                            <TouchableOpacity onPress={() => this.setDelete()}>
+                                <View style={{ flexDirection: 'row', marginTop: 10 }}>
+
+                                    <Image
+                                        style={{ width: 30, height: 30, color: 'black', }}
+                                        source={require('../Images/delete.png')}
+                                    />
+                                    <Text style={{ marginHorizontal: 10, fontSize: 25 }}> Delete</Text>
+
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity>
+                                <View style={{ flexDirection: 'row', marginTop: 15 }}>
+
+                                    <Image
+                                        style={{ width: 30, height: 30, color: 'black', }}
+                                        source={require('../Images/copy.png')}
+                                    />
+                                    <Text style={{ marginHorizontal: 10, fontSize: 25 }}> Make a copy </Text>
+
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity>
+                                <View style={{ flexDirection: 'row', marginTop: 15 }}>
+
+                                    <Image
+                                        style={{ width: 30, height: 30, color: 'black', }}
+                                        source={require('../Images/send.png')}
+                                    />
+                                    <Text style={{ marginHorizontal: 10, fontSize: 25 }}> Send</Text>
+
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity>
+                                <View style={{ flexDirection: 'row', marginTop: 15 }}>
+
+                                    <Image
+                                        style={{ width: 30, height: 30, color: 'black', }}
+                                        source={require('../Images/collaborator.png')}
+                                    />
+                                    <Text style={{ marginHorizontal: 10, fontSize: 25 }}> Collaborator </Text>
+
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity>
+                                <View style={{ flexDirection: 'row', marginTop: 15 }}>
+
+                                    <Image
+                                        style={{ width: 30, height: 30, color: 'black', }}
+                                        source={require('../Images/label.png')}
+                                    />
+                                    <Text style={{ marginHorizontal: 10, fontSize: 25 }}> Labels</Text>
+
+                                </View>
+                            </TouchableOpacity>
+
+                            <View style={{ marginTop: 15 }}>
+                                <FlatList horizontal={true}
+                                    data={colorBox}
+                                    renderItem={({ item }) => <View style={{ flexDirection: 'row' }}><TouchableOpacity onPress={() => this.handleColor(item.colorCode)}>
+                                        <View style={{ backgroundColor: item.colorCode, marginLeft: 5, borderRadius: 25, height: 40, width: 40, borderColor: 'black', borderWidth: StyleSheet.hairlineWidth }}>
+                                        </View>
+                                    </TouchableOpacity>
+                                    </View>}
+                                />
+
+                            </View>
+                        </View>
+                    </Modal>
+                </View>
+
+            </View >
         );
     }
 }

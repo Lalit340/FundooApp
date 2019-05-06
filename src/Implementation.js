@@ -46,7 +46,7 @@ export async function signinPage(email, password) {
 };
 
 
-export async function createNotes(title, note, reminder) {
+export async function createNotes(title, note, reminder, trash, archive, color, pin) {
 
     var user = await Firebase.firebase.auth().currentUser
 
@@ -55,6 +55,10 @@ export async function createNotes(title, note, reminder) {
         title: title,
         note: note,
         reminder: reminder,
+        archive: archive,
+        trash: trash,
+        color: color,
+        pin: pin,
         email: email,
     }
 
@@ -81,10 +85,10 @@ export async function getData(callback) {
     console.warn(user + " current user")
 
     var email = user.email;
-    await Firebase.database.ref('UserNote').orderByChild('email').equalTo(email).on("value", snap => {
+    await database.database.ref('/UserNote').orderByChild('email').equalTo(email).on("value", snap => {
         var data = snap.val()
 
-        return callback(data)
+        return callback(data);
 
     })
 
@@ -107,4 +111,68 @@ export async function saveData(username, pwd) {
 
     });
 
+}
+
+
+export async function editNotes(Title, notes, reminder, note, key) {
+
+    note = {
+        title: Title,
+        note: notes,
+        reminder: reminder
+    }
+    updateNotes(note, key);
+}
+
+
+export async function updateNotes(note, key) {
+    console.warn(note + 'this note is updated');
+    database.database.ref('/UserNote').child(key).update(note);
+}
+
+
+export async function editReminder(reminder, note, key) {
+
+    note = {
+        reminder: reminder
+    }
+    updateNotes(note, key);
+}
+
+
+export async function updatePin(pin, note, key) {
+    console.log('pin is updated');
+    note = {
+        pin: pin
+    }
+    updateNotes(note, key);
+}
+
+export async function editTrash(trash, note, key) {
+    console.log('pin is updated');
+    note = {
+        trash: trash
+    }
+    updateNotes(note, key);
+}
+
+export async function editArchive(archive, note, key) {
+    console.log('pin is updated');
+    note = {
+        archive: archive,
+    }
+    updateNotes(note, key);
+}
+
+export async function editColor(color, note, key) {
+    console.log('pin is updated');
+    note = {
+        color: color,
+    }
+    updateNotes(note, key);
+}
+
+export async function deleteNote(note, key) {
+    console.warn(note + 'this note is delete');
+    database.database.ref('/UserNote').child(key).remove();
 }

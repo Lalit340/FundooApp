@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity , ScrollView } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { DrawerActions } from 'react-navigation-drawer';
 import { getData } from '../Implementation';
 import Display from '../component/CardComponent';
@@ -31,7 +31,7 @@ export default class HomePage extends Component {
   componentDidMount() {
     //RNLocalNotifications.createNotification(1, 'Some text', '2019-04-27 05:10', 'default');
 
-    getData(arr =>{
+    getData(arr => {
       console.warn(arr);
       if (arr) {
         this.setState({
@@ -51,13 +51,32 @@ export default class HomePage extends Component {
     arrData = Object.keys(this.state.note).map((note) => {
       key = note;
       data = this.state.note[key];
-      return (
-        <Display Show={data}
-          notekey={key}
-          view={this.state.click}
-          navigation={this.props.navigation}
-        />
-      )
+      if (data.trash === false && data.archive !== true && data.pin === false) {
+        return (
+          <Display Show={data}
+            notekey={key}
+            view={this.state.click}
+            navigation={this.props.navigation}
+          />
+
+        )
+      }
+    });
+
+    var arrPin, key, data;
+    arrPin = Object.keys(this.state.note).map((note) => {
+      key = note;
+      data = this.state.note[key];
+      if (data.trash === false && data.archive !== true && data.pin === true) {
+        return (
+          <Display Show={data}
+            notekey={key}
+            view={this.state.click}
+            navigation={this.props.navigation}
+          />
+
+        )
+      }
     });
 
     return (
@@ -102,10 +121,20 @@ export default class HomePage extends Component {
         </View>
 
         <ScrollView>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
-            {arrData}
+          <View>
+            <Text style={{ fontSize: 10, marginLeft: 15 }}>Pinned</Text>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+              {arrPin}
+            </View>
+          </View>
+          <View>
+            <Text style={{ fontSize: 10, marginLeft: 15, marginTop: 15 }}>OTHER</Text>
+            <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+              {arrData}
+            </View>
           </View>
         </ScrollView>
+
 
         <View style={{ flex: 1 }}></View>
 
@@ -143,7 +172,7 @@ export default class HomePage extends Component {
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+      </View >
 
     );
   }

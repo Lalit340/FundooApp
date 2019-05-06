@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { createDrawerNavigator, createAppContainer } from 'react-navigation';
 import DashBoard from '../pages/DashBoard';
-import AntDesign from 'react-native-vector-icons/AntDesign'
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Foundation from 'react-native-vector-icons/Foundation';
 import Log from '../pages/LogOut'
-
+import Deleted from './Delete';
+import Archive from './Archive' ;
 const drawerNavigator = createDrawerNavigator({
   DashBoard: {
     screen: DashBoard,
@@ -18,7 +20,21 @@ const drawerNavigator = createDrawerNavigator({
       drawerLabel: 'Signout',
       drawerIcon: <AntDesign name="logout" size={30} color="green" marginTop='0' />,
     }
-  }
+  }, 
+  Delete: {
+    screen: Deleted,
+    navigationOptions: {
+      drawerLabel: 'Deleted',
+      drawerIcon: <AntDesign name="delete" size={30} color="green" marginTop='0' />,
+    }
+  },
+  Archive: {
+    screen: Archive,
+    navigationOptions: {
+      drawerLabel: 'Archive',
+      drawerIcon: <Foundation  name="archive" size={30} color="green" marginTop='0' />,
+    }
+  },
 
 },
   {
@@ -29,7 +45,7 @@ const drawerNavigator = createDrawerNavigator({
       labelStyle: 'normal',
     },
     drawerPosition: 'left',
-    order: ['DashBoard', 'Log'],
+    order: ['DashBoard', 'Log' , 'Delete' ,'Archive'],
     // drawerBackgroundColor: 'orange',
   });
 

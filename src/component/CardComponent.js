@@ -38,7 +38,7 @@ export default class Display extends Component {
                 <TouchableOpacity onPress={this.press.bind(this)}
                     onLongPress={() => this.longPress()}
                     activeOpacity={0.4} >
-                    <Card containerStyle={{ backgroundColor: '#ffff', borderRadius: 10 }}>
+                    <Card containerStyle={{ backgroundColor: this.props.Show.color, borderRadius: 10 }}>
                         <View>
                             <View style={{ padding: 8 }}>
                                 <Text>{this.props.Show.title}</Text>

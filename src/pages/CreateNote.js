@@ -4,10 +4,49 @@ import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'reac
 import { createNotes } from '../Implementation';
 import DateTimePicker from "react-native-modal-datetime-picker";
 import Dialog from 'react-native-dialog';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, FlatList } from 'react-native-gesture-handler';
 import Modal from "react-native-modal";
 
 
+const colorBox = [
+    {
+        colorCode: "#fffff",
+        colorName: "white"
+    },
+    {
+        colorCode: "#e57373",
+        colorName: "red"
+    },
+    {
+        colorCode: "#7e57c2",
+        colorName: "deepPurple"
+    },
+    {
+        colorCode: "#0277bd",
+        colorName: "lightBlue"
+    },
+    {
+        colorCode: "#81c784",
+        colorName: "green"
+    },
+    {
+        colorCode: "#fff176",
+        colorName: "yellow"
+    },
+    {
+        colorCode: "#ff7043",
+        colorName: "deepOrange"
+    },
+    {
+        colorCode: "#78909c",
+        colorName: "blueGrey"
+    },
+    {
+        colorCode: "#8d6e63",
+        colorName: "brown"
+    },
+
+]
 
 export default class CreateNotes extends Component {
 
@@ -16,7 +55,7 @@ export default class CreateNotes extends Component {
     constructor() {
         super();
         this.state = {
-            click: true,
+            click: false,
             title: '',
             note: '',
             reminder: '',
@@ -24,6 +63,9 @@ export default class CreateNotes extends Component {
             DatePickerVisible: false,
             TimePickerVisible: false,
             visible: false,
+            trash: false,
+            archive: false,
+            color: ''
 
         }
     }
@@ -104,7 +146,7 @@ export default class CreateNotes extends Component {
     back() {
         var valid = this.validation();
         if (valid) {
-            createNotes(this.state.title, this.state.note, this.state.reminder);
+            createNotes(this.state.title, this.state.note, this.state.reminder, this.state.trash, this.state.archive, this.state.color, this.state.click);
             this.props.navigation.navigate('Drawer');
         } else
             this.props.navigation.navigate('Drawer');
@@ -116,6 +158,16 @@ export default class CreateNotes extends Component {
         });
     }
 
+    handleTrash() {
+        this.setState({ trash: !(this.state.trash) })
+    }
+    handleArchive() {
+        this.setState({ archive: !(this.state.archive) });
+    }
+
+    handleColor(color) {
+        this.setState({ color: color });
+    }
 
     render() {
         return (
@@ -134,7 +186,7 @@ export default class CreateNotes extends Component {
                                 <TouchableOpacity onPress={() => this.getPin()}>
                                     <Image
                                         style={{ width: 25, height: 25, marginLeft: 230, marginVertical: 6 }}
-                                        source={require('../Images/pin.png')}
+                                        source={require('../Images/unpin.png')}
                                     />
                                 </TouchableOpacity>
                             </View>)
@@ -142,7 +194,7 @@ export default class CreateNotes extends Component {
                                 <TouchableOpacity onPress={() => this.getPin()}>
                                     <Image
                                         style={{ width: 25, height: 25, marginLeft: 230, marginVertical: 6 }}
-                                        source={require('../Images/unpin.png')}
+                                        source={require('../Images/pin.png')}
                                     />
                                 </TouchableOpacity>
                             </View>)
@@ -191,10 +243,10 @@ export default class CreateNotes extends Component {
                         </Dialog.Container>
                     </View>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => this.handleArchive()}>
                         <Image
                             style={{ width: 20, height: 20, marginLeft: 15, marginVertical: 6 }}
-                            source={require('../Images/achieve.png')}
+                            source={require('../Images/archive.png')}
                         />
                     </TouchableOpacity>
                 </View>
@@ -236,14 +288,14 @@ export default class CreateNotes extends Component {
                 </View>
 
                 <View>
-                    <Modal style={{ marginTop: 330 }}
+                    <Modal style={{ marginTop: 320 }}
                         isVisible={this.state.visible}
-                        deviceHeight={320}
+                        deviceHeight={310}
                         deviceWidth={420}
                         onBackdropPress={() => this.setState({ visible: false })}
                     >
                         <View style={{ flex: 1 }}>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => this.handleTrash()}>
                                 <View style={{ flexDirection: 'row', marginTop: 10 }}>
 
                                     <Image
@@ -281,7 +333,7 @@ export default class CreateNotes extends Component {
 
                                     <Image
                                         style={{ width: 30, height: 30, color: 'black', }}
-                                        source={require('../Images/delete.png')}
+                                        source={require('../Images/collaborator.png')}
                                     />
                                     <Text style={{ marginHorizontal: 10, fontSize: 25 }}> Collaborator </Text>
 
@@ -298,6 +350,15 @@ export default class CreateNotes extends Component {
 
                                 </View>
                             </TouchableOpacity>
+                            <View style={{ marginTop : 15}}>
+                                <FlatList horizontal={true}
+                                    data={colorBox}
+                                    renderItem={({ item }) => <TouchableOpacity onPress={() => this.handleColor(item.colorCode)}>
+                                        <View style={{ backgroundColor: item.colorCode, marginLeft: 5, borderRadius: 25, height: 40, width: 40, borderColor: 'black', borderWidth: StyleSheet.hairlineWidth }}>
+                                        </View>
+                                    </TouchableOpacity>}
+                                />
+                            </View>
                         </View>
                     </Modal>
                 </View>
@@ -310,8 +371,6 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         height: 40,
-
-
     },
 
 });
