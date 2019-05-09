@@ -9,6 +9,11 @@ import Drawer from './NavigationDrawer';
 import Create from '../pages/CreateNote'
 import Display from './CardComponent';
 import Edit from '../pages/Edit';
+import Edelete from './EditDelete';
+import CardPrint from './CardDelete';
+import MultiSelect from './MultiSelection' ;
+
+
 
 const pages = createStackNavigator({
     Login: { screen: LoginPage },
@@ -17,8 +22,12 @@ const pages = createStackNavigator({
     Note: { screen: Notes },
     Drawer: { screen: Drawer, navigationOptions: { header: null }, },
     Create: { screen: Create },
-    Display:{screen:Display},
-    Modify:{screen:Edit},
+    Display: { screen: Display },
+    Modify: { screen: Edit },
+    CardPrint: { screen: CardPrint },
+    Edelete: { screen: Edelete },
+    MultiSelect:{screen:MultiSelect},
+  
 },
     {
         initialRouteName: 'Login',

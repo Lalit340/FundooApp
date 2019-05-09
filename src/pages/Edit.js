@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView, Dimensions } from 'react-native';
 
 import { editNotes, editReminder, editArchive, updatePin, editTrash, editColor } from '../Implementation';
 import DateTimePicker from "react-native-modal-datetime-picker";
@@ -9,7 +9,7 @@ import { FlatList } from 'react-native-gesture-handler';
 
 const colorBox = [
     {
-        colorCode: "#fffff",
+        colorCode: "#FFFFFF",
         colorName: "white"
     },
     {
@@ -62,8 +62,9 @@ export default class Editor extends Component {
             DatePickerVisible: false,
             TimePickerVisible: false,
             visible: false,
-            trash: false,
-            archive: false,
+            select: this.props.navigation.state.params.Show.select,
+            trash: this.props.navigation.state.params.Show.trash,
+            archive: this.props.navigation.state.params.Show.archive,
             color: this.props.navigation.state.params.Show.color,
         }
     }
@@ -141,15 +142,16 @@ export default class Editor extends Component {
         else
             return true;
     }
-    back() {
+    async back() {
         var valid = this.validation();
         if (valid) {
-            editNotes(this.state.title, this.state.note, this.props.navigation.state.params.Show, this.props.navigation.state.params.notekey);
-            editReminder(this.state.reminder, this.props.navigation.state.params.Show, this.props.navigation.state.params.notekey);
-            updatePin(this.state.click, this.props.navigation.state.params.Show, this.props.navigation.state.params.notekey);
-            editTrash(this.state.trash, this.props.navigation.state.params.Show, this.props.navigation.state.params.notekey);
-            editArchive(this.state.archive, this.props.navigation.state.params.Show, this.props.navigation.state.params.notekey);
-            editColor(this.state.color, this.props.navigation.state.params.Show, this.props.navigation.state.params.notekey);
+            await editNotes(this.state.title, this.state.note, this.props.navigation.state.params.Show, this.props.navigation.state.params.notekey);
+            await editReminder(this.state.reminder, this.props.navigation.state.params.Show, this.props.navigation.state.params.notekey);
+            await editReminder(this.state.select, this.props.navigation.state.params.Show, this.props.navigation.state.params.notekey);
+            await updatePin(this.state.click, this.props.navigation.state.params.Show, this.props.navigation.state.params.notekey);
+            await editTrash(this.state.trash, this.props.navigation.state.params.Show, this.props.navigation.state.params.notekey);
+            await editArchive(this.state.archive, this.props.navigation.state.params.Show, this.props.navigation.state.params.notekey);
+            await editColor(this.state.color, this.props.navigation.state.params.Show, this.props.navigation.state.params.notekey);
             this.props.navigation.navigate('Drawer');
         } else
             this.props.navigation.navigate('Drawer');
@@ -158,7 +160,7 @@ export default class Editor extends Component {
 
     getModel() {
         this.setState({
-            visible: true,
+            visible: !(this.state.visible)
         });
     }
 
@@ -166,6 +168,10 @@ export default class Editor extends Component {
         this.setState({
             trash: true
         })
+
+        if (this.state.trash) {
+            this.back();
+        }
 
     }
     handleArchive() {
@@ -178,8 +184,13 @@ export default class Editor extends Component {
 
 
     render() {
+        const deviceWidth = Dimensions.get("window").width;
+        // const deviceHeight = Dimensions.get('window').height ;
+
+
         return (
-            <View style={{ flex: 1 }}>
+
+            <View style={{ flex: 1, backgroundColor: this.state.color }}>
                 <View style={styles.container}>
                     <TouchableOpacity onPress={() => this.back()}>
                         <Image
@@ -250,13 +261,25 @@ export default class Editor extends Component {
                             <Dialog.Button label="ok" onPress={this.save} />
                         </Dialog.Container>
                     </View>
-
-                    <TouchableOpacity onPress={() => this.handleArchive()}>
-                        <Image
-                            style={{ width: 20, height: 20, marginLeft: 15, marginVertical: 6 }}
-                            source={require('../Images/archive.png')}
-                        />
-                    </TouchableOpacity>
+                    {
+                        this.state.archive ?
+                            (<View>
+                                <TouchableOpacity onPress={() => this.handleArchive()}>
+                                    <Image
+                                        style={{ width: 20, height: 20, marginLeft: 15, marginVertical: 6, backgroundColor: 'black' }}
+                                        source={require('../Images/unarchive.png')}
+                                    />
+                                </TouchableOpacity>
+                            </View>)
+                            : (<View>
+                                <TouchableOpacity onPress={() => this.handleArchive()}>
+                                    <Image
+                                        style={{ width: 20, height: 20, marginLeft: 15, marginVertical: 6 }}
+                                        source={require('../Images/archive.png')}
+                                    />
+                                </TouchableOpacity>
+                            </View>)
+                    }
                 </View>
                 <ScrollView>
                     <View >
@@ -264,12 +287,14 @@ export default class Editor extends Component {
                             style={{ width: 300, paddingTop: 20, marginLeft: 20, fontWeight: 'bold', fontSize: 25 }}
                             placeholder='Title'
                             onChangeText={(title) => this.setState({ title })}
+                            onSubmitEditing={() => this.note.focus()}
                             value={this.state.title}
                         />
                         <TextInput
                             style={{ width: 300, marginVertical: 5, marginLeft: 25, fontWeight: 'bold', fontSize: 20 }}
                             placeholder='Notes'
                             onChangeText={(note) => this.setState({ note })}
+                            ref={(input) => this.note = input}
                             value={this.state.note}
                             multiline={true}
                         />
@@ -299,7 +324,7 @@ export default class Editor extends Component {
                     <Modal style={{ marginTop: 320 }}
                         isVisible={this.state.visible}
                         deviceHeight={310}
-                        deviceWidth={420}
+                        deviceWidth={deviceWidth}
                         onBackdropPress={() => this.setState({ visible: false })}
                     >
                         <View style={{ flex: 1 }}>

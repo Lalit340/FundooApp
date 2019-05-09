@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity ,Dimensions} from 'react-native';
 
 import { createNotes } from '../Implementation';
 import DateTimePicker from "react-native-modal-datetime-picker";
@@ -10,7 +10,7 @@ import Modal from "react-native-modal";
 
 const colorBox = [
     {
-        colorCode: "#fffff",
+        colorCode: "#ffffff",
         colorName: "white"
     },
     {
@@ -65,7 +65,8 @@ export default class CreateNotes extends Component {
             visible: false,
             trash: false,
             archive: false,
-            color: ''
+            color: '',
+            select: false,
 
         }
     }
@@ -146,7 +147,7 @@ export default class CreateNotes extends Component {
     back() {
         var valid = this.validation();
         if (valid) {
-            createNotes(this.state.title, this.state.note, this.state.reminder, this.state.trash, this.state.archive, this.state.color, this.state.click);
+            createNotes(this.state.title, this.state.note,this.state.select , this.state.reminder, this.state.trash, this.state.archive, this.state.color, this.state.click);
             this.props.navigation.navigate('Drawer');
         } else
             this.props.navigation.navigate('Drawer');
@@ -170,8 +171,11 @@ export default class CreateNotes extends Component {
     }
 
     render() {
+        const deviceWidth = Dimensions.get("window").width;
+        // const deviceHeight = Dimensions.get('window').height ;
+ 
         return (
-            <View style={{ flex: 1 }}>
+            <View style={{  flex: 1, backgroundColor: this.state.color}}>
                 <View style={styles.container}>
                     <TouchableOpacity onPress={() => this.back()}>
                         <Image
@@ -291,7 +295,7 @@ export default class CreateNotes extends Component {
                     <Modal style={{ marginTop: 320 }}
                         isVisible={this.state.visible}
                         deviceHeight={310}
-                        deviceWidth={420}
+                        deviceWidth={deviceWidth }
                         onBackdropPress={() => this.setState({ visible: false })}
                     >
                         <View style={{ flex: 1 }}>

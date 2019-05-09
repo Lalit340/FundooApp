@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { DrawerActions } from 'react-navigation-drawer';
 import { getData } from '../Implementation';
-import Display from './CardComponent';
+import CardPrint from './CardDelete';
 
 export default class Deleted extends Component {
     constructor(props) {
@@ -39,7 +39,7 @@ export default class Deleted extends Component {
             data = this.state.note[key];
             if (data.trash === true && data.archive !== true) {
                 return (
-                    <Display Show={data}
+                    <CardPrint Show={data}
                         notekey={key}
                         view={this.state.click}
                         navigation={this.props.navigation}

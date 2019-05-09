@@ -8,9 +8,8 @@ import {
 } from 'react-native';
 import MultiSelect from './MultiSelection';
 import { Card } from 'react-native-elements';
-import { editSelect} from '../Implementation';
 
-export default class Display extends Component {
+export default class Print extends Component {
     static navigationOptions = { header: null };
 
     constructor(props) {
@@ -20,13 +19,12 @@ export default class Display extends Component {
         }
     }
 
-    press = () => {
-        this.props.navigation.navigate('Modify', { Show: this.props.Show, notekey: this.props.notekey });
-    }
+    // press = () => {
+    //     this.props.navigation.navigate('Modify', { Show: this.props.Show, notekey: this.props.notekey });
+    // }
 
     longPress() {
         this.setState({ click: !(this.state.click) });
-       editSelect(this.state.click , this.props.Show ,this.props.notekey );
     }
 
 
@@ -36,9 +34,10 @@ export default class Display extends Component {
             return (
                 <View style={pick} >
                     <View >
-                      
+                        <MultiSelect view={this.state.click}/>
                     </View>
-                    <TouchableOpacity onLongPress={() => this.longPress()}>
+                    <TouchableOpacity  onLongPress={() => this.longPress()}
+                        activeOpacity={0.4} >
                         <Card containerStyle={{ backgroundColor: this.props.Show.color, borderRadius: 10, borderColor: 'green' }}>
                             <View>
                                 <View style={{ padding: 5 }}>
@@ -63,8 +62,7 @@ export default class Display extends Component {
 
 
             <View style={take} >
-                <TouchableOpacity onPress={this.press.bind(this)}
-                    onLongPress={() => this.longPress()}
+                <TouchableOpacity  onLongPress={() => this.longPress()}
                     activeOpacity={0.4} >
                     <Card containerStyle={{ backgroundColor: this.props.Show.color, borderRadius: 10 }}>
                         <View>

@@ -46,7 +46,7 @@ export async function signinPage(email, password) {
 };
 
 
-export async function createNotes(title, note, reminder, trash, archive, color, pin) {
+export async function createNotes(title, note, select, reminder, trash, archive, color, pin) {
 
     var user = await Firebase.firebase.auth().currentUser
 
@@ -54,6 +54,7 @@ export async function createNotes(title, note, reminder, trash, archive, color, 
     var arr = {
         title: title,
         note: note,
+        select :select,
         reminder: reminder,
         archive: archive,
         trash: trash,
@@ -114,12 +115,12 @@ export async function saveData(username, pwd) {
 }
 
 
-export async function editNotes(Title, notes, reminder, note, key) {
+export async function editNotes(Title, notes, note, key) {
 
     note = {
         title: Title,
         note: notes,
-        reminder: reminder
+
     }
     updateNotes(note, key);
 }
@@ -140,6 +141,14 @@ export async function editReminder(reminder, note, key) {
 }
 
 
+export async function editSelect(select, note, key) {
+
+    note = {
+        select : select
+    }
+    updateNotes(note, key);
+}
+
 export async function updatePin(pin, note, key) {
     console.log('pin is updated');
     note = {
@@ -149,7 +158,7 @@ export async function updatePin(pin, note, key) {
 }
 
 export async function editTrash(trash, note, key) {
-    console.log('pin is updated');
+    console.log('trash is updated');
     note = {
         trash: trash
     }
@@ -157,7 +166,7 @@ export async function editTrash(trash, note, key) {
 }
 
 export async function editArchive(archive, note, key) {
-    console.log('pin is updated');
+    console.log('archive is updated');
     note = {
         archive: archive,
     }
