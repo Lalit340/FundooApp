@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native';
-import { logOut } from '../Implementation';
+import { logOut } from '../config/Implementation';
 
 import Dialog from "react-native-dialog";
 

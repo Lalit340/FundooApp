@@ -2,6 +2,7 @@
 
 buildscript {
     ext {
+      
         buildToolsVersion = "28.0.3"
         minSdkVersion = 16
         compileSdkVersion = 28
@@ -30,4 +31,9 @@ allprojects {
             url "$rootDir/../node_modules/react-native/android"
         }
     }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.10.2'
+    distributionUrl = distributionUrl.replace("bin", "all")
 }

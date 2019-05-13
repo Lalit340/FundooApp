@@ -11,8 +11,8 @@ import {
 
 import { ScrollView } from 'react-native-gesture-handler';
 
-import register from '../Implementation';
-import saveData from '../AsyncStorage';
+import register from '../config/Implementation';
+import saveData from '../config/AsyncStorage';
 
 
 

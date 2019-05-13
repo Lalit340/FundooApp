@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { DrawerActions } from 'react-navigation-drawer';
-import { getData, editTrash, editSelect, updatePin } from '../Implementation';
+import { getData, editTrash, editSelect, updatePin } from '../config/Implementation';
 import Display from '../component/CardComponent';
 //import RNLocalNotifications from 'react-native-local-notifications';
 
@@ -47,6 +47,8 @@ export default class HomePage extends Component {
     });
   }
 
+
+
   goBack() {
     let info, keys;
     Object.keys(this.state.note).map((note) => {
@@ -89,8 +91,9 @@ export default class HomePage extends Component {
 
   }
 
-  render() {
 
+  render() {
+   
     var arrData, key, data;
     var selectItem = false;
     arrData = Object.keys(this.state.note).map((note) => {
@@ -273,8 +276,8 @@ export default class HomePage extends Component {
       </View >
     );
   }
-}
 
+}
 const styles = StyleSheet.create({
   container: {
     position: 'relative',

@@ -6,14 +6,13 @@ import {
     StyleSheet,
     TouchableOpacity,
 } from 'react-native';
-import MultiSelect from './MultiSelection';
 import { Card } from 'react-native-elements';
-import { editSelect} from '../Implementation';
+import { editSelect} from '../config/Implementation';
 
 export default class Display extends Component {
     static navigationOptions = { header: null };
 
-    constructor(props) {
+    constructor(props){
         super(props);
         this.state = {
             click: false,
@@ -27,17 +26,15 @@ export default class Display extends Component {
     longPress() {
         this.setState({ click: !(this.state.click) });
        editSelect(this.state.click , this.props.Show ,this.props.notekey );
-    }
+    }s
 
 
     render() {
-        if (this.state.click) {
+        if (this.state.click && this.props.Show.select) {
             var pick = this.props.view ? (styles.view1) : (styles.view2);
             return (
                 <View style={pick} >
-                    <View >
-                      
-                    </View>
+                   
                     <TouchableOpacity onLongPress={() => this.longPress()}>
                         <Card containerStyle={{ backgroundColor: this.props.Show.color, borderRadius: 10, borderColor: 'green' }}>
                             <View>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions, ScrollView } from 'react-native';
 
-import { editNotes, editReminder, editArchive, updatePin, editTrash, deleteNote } from '../Implementation';
+import {  editTrash, deleteNote } from '../config/Implementation';
 import Modal from "react-native-modal";
 
 

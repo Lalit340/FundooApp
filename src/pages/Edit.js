@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView, Dimensions } from 'react-native';
 
-import { editNotes, editReminder, editArchive, updatePin, editTrash, editColor } from '../Implementation';
+import { editNotes, editReminder, editArchive, updatePin, editTrash, editColor, editSelect } from '../config/Implementation';
 import DateTimePicker from "react-native-modal-datetime-picker";
 import Dialog from 'react-native-dialog';
 import Modal from "react-native-modal";
@@ -147,14 +147,13 @@ export default class Editor extends Component {
         if (valid) {
             await editNotes(this.state.title, this.state.note, this.props.navigation.state.params.Show, this.props.navigation.state.params.notekey);
             await editReminder(this.state.reminder, this.props.navigation.state.params.Show, this.props.navigation.state.params.notekey);
-            await editReminder(this.state.select, this.props.navigation.state.params.Show, this.props.navigation.state.params.notekey);
             await updatePin(this.state.click, this.props.navigation.state.params.Show, this.props.navigation.state.params.notekey);
             await editTrash(this.state.trash, this.props.navigation.state.params.Show, this.props.navigation.state.params.notekey);
             await editArchive(this.state.archive, this.props.navigation.state.params.Show, this.props.navigation.state.params.notekey);
             await editColor(this.state.color, this.props.navigation.state.params.Show, this.props.navigation.state.params.notekey);
-            this.props.navigation.navigate('Drawer');
+            this.props.navigation.goBack();
         } else
-            this.props.navigation.navigate('Drawer');
+            this.props.navigation.goBack();
 
     }
 

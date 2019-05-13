@@ -9,7 +9,7 @@ import {
     Image,
 } from 'react-native';
 
-import { signinPage, saveData } from '../Implementation';
+import { signinPage, saveData } from '../config/Implementation';
 
 
 
@@ -38,11 +38,11 @@ class LoginPage extends Component {
 
         if (email.trim() == '')
             alert('enter a valid username');
-        else if (email.indexOf('.com') == -1 || email.indexOf('@') == -1)
+        else if (email.trim().indexOf('.com') == -1 || email.trim().indexOf('@') == -1)
             alert('enter a valid email');
         else if (pwd.trim() == '')
             alert('Enter  password');
-        else if (pwd.length < 8)
+        else if (pwd.trim().length < 8)
             alert('enter a valid password');
         else {
             console.log('login success');

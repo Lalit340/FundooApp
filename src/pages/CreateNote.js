@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity ,Dimensions} from 'react-native';
 
-import { createNotes } from '../Implementation';
+import { createNotes } from '../config/Implementation';
 import DateTimePicker from "react-native-modal-datetime-picker";
 import Dialog from 'react-native-dialog';
 import { ScrollView, FlatList } from 'react-native-gesture-handler';
