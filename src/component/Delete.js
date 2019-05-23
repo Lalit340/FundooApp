@@ -82,7 +82,7 @@ export default class Deleted extends Component {
                                 </TouchableOpacity>
                             </View>)
                     }
-                    <Text>   </Text>
+                    <Text>  </Text>
                     <TouchableOpacity >
                         <Image
                             style={{ width: 25, height: 25, marginVertical: 8 }}

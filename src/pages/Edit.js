@@ -86,16 +86,11 @@ export default class Editor extends Component {
         this.hideTimePicker();
     }
 
-    hideDatePicker = () => {
-        this.setState({
-            DatePickerVisible: false,
-        });
-    }
-    hideTimePicker = () => {
-        this.setState({
-            TimePickerVisible: false,
-        });
-    }
+    hideDatePicker = () => this.setState({ DatePickerVisible: false });
+
+
+    hideTimePicker = () => this.setState({ TimePickerVisible: false });
+
     save = () => {
         var data = this.state.date + '   ' + this.state.time;
         this.setState({
@@ -104,32 +99,19 @@ export default class Editor extends Component {
         });
     }
 
-    cancel = () => {
-        this.setState({
-            dialogLog: false,
-        });
-    }
-    showDate = () => {
-        this.setState({
-            DatePickerVisible: true,
-        });
-    }
+    cancel = () => this.setState({ dialogLog: false });
 
-    showTime = () => {
-        this.setState({
-            TimePickerVisible: true,
-        });
-    }
-    showDialog = () => {
-        this.setState({
-            dialogLog: true,
-        });
-    }
+    showDate = () => this.setState({ DatePickerVisible: true });
 
 
-    getPin() {
-        this.setState({ click: !(this.state.click) });
-    }
+    showTime = () => this.setState({ TimePickerVisible: true });
+
+    showDialog = () => this.setState({ dialogLog: true });
+
+
+
+    getPin = () => this.setState({ click: !(this.state.click) });
+
 
     validation() {
         var title, note;
@@ -157,13 +139,9 @@ export default class Editor extends Component {
 
     }
 
-    getModel() {
-        this.setState({
-            visible: !(this.state.visible)
-        });
-    }
+    getModel = () => this.setState({ visible: !(this.state.visible) });
 
-    setDelete() {
+    setDelete = () => {
         this.setState({
             trash: true
         })
@@ -171,15 +149,13 @@ export default class Editor extends Component {
         if (this.state.trash) {
             this.back();
         }
-
-    }
-    handleArchive() {
-        this.setState({ archive: !(this.state.archive) });
     }
 
-    handleColor(color) {
-        this.setState({ color: color });
-    }
+    handleArchive = () => this.setState({ archive: !(this.state.archive) });
+
+
+    handleColor = color => this.setState({ color: color });
+
 
 
     render() {

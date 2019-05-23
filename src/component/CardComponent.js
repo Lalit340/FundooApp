@@ -7,12 +7,12 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import { Card } from 'react-native-elements';
-import { editSelect} from '../config/Implementation';
+import { editSelect } from '../config/Implementation';
 
 export default class Display extends Component {
     static navigationOptions = { header: null };
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             click: false,
@@ -25,8 +25,8 @@ export default class Display extends Component {
 
     longPress() {
         this.setState({ click: !(this.state.click) });
-       editSelect(this.state.click , this.props.Show ,this.props.notekey );
-    }s
+        editSelect(this.state.click, this.props.Show, this.props.notekey);
+    }
 
 
     render() {
@@ -34,19 +34,19 @@ export default class Display extends Component {
             var pick = this.props.view ? (styles.view1) : (styles.view2);
             return (
                 <View style={pick} >
-                   
+
                     <TouchableOpacity onLongPress={() => this.longPress()}>
                         <Card containerStyle={{ backgroundColor: this.props.Show.color, borderRadius: 10, borderColor: 'green' }}>
                             <View>
-                                <View style={{ padding: 5 }}>
-                                    <Text>{this.props.Show.title}</Text>
-                                </View>
-                                <View style={{ padding: 5 }}>
-                                    <Text>{this.props.Show.note}</Text>
-                                </View>
-                                <View style={{ padding: 5 }}>
-                                    <Text>{this.props.Show.reminder}</Text>
-                                </View>
+                                <Text style={{ padding: 5 }}>{this.props.Show.title}</Text>
+                                <Text style={{ padding: 5 }}>{this.props.Show.note}</Text>
+                                {this.props.Show.reminder ?
+                                    (<View>
+                                        <Text style={{ padding: 5 }}>{this.props.Show.reminder}</Text>
+                                    </View>)
+                                    : (<View>
+                                    </View>)
+                                }
                             </View>
                         </Card>
                     </TouchableOpacity>
@@ -65,15 +65,15 @@ export default class Display extends Component {
                     activeOpacity={0.4} >
                     <Card containerStyle={{ backgroundColor: this.props.Show.color, borderRadius: 10 }}>
                         <View>
-                            <View style={{ padding: 5 }}>
-                                <Text>{this.props.Show.title}</Text>
-                            </View>
-                            <View style={{ padding: 5 }}>
-                                <Text>{this.props.Show.note}</Text>
-                            </View>
-                            <View style={{ padding: 5 }}>
-                                <Text>{this.props.Show.reminder}</Text>
-                            </View>
+                            <Text style={{ padding: 5 }}>{this.props.Show.title}</Text>
+                            <Text style={{ padding: 5 }}>{this.props.Show.note}</Text>
+                            {this.props.Show.reminder ?
+                                (<View>
+                                    <Text style={{ padding: 5 }}>{this.props.Show.reminder}</Text>
+                                </View>)
+                                : (<View>
+                                </View>)
+                            }
                         </View>
                     </Card>
                 </TouchableOpacity>

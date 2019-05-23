@@ -8,7 +8,6 @@
 
 import React, { Component } from 'react';
 import Container from './src/component/NavigatePage'
-
 //console.disableYellowBox = true ;
 
 

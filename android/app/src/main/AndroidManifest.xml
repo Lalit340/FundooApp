@@ -2,9 +2,11 @@
   package="com.fundooapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name="android.permission.CAMERA"/>
-<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+  
 
 <uses-permission android:name="android.permission.WAKE_LOCK" />
     <permission
@@ -25,9 +27,10 @@
       android:launchMode="singleTop"
       android:theme="@style/AppTheme">
 
-        <!-- <meta-data android:name="com.facebook.sdk.ApplicationId" 
-            android:value="@string/facebook_app_id"/> -->
-
+     
+       <meta-data android:name="com.facebook.sdk.ApplicationId"
+          android:value="@string/facebook_app_id"/>
+          
               <meta-data  android:name="com.dieam.reactnativepushnotification.notification_channel_name"
                 android:value="YOUR NOTIFICATION CHANNEL NAME"/>
         <meta-data  android:name="com.dieam.reactnativepushnotification.notification_channel_description"
@@ -56,6 +59,7 @@
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
+     <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
         </intent-filter>
       </activity>
 

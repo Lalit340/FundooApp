@@ -9,6 +9,7 @@ import Archive from './Archive' ;
 const drawerNavigator = createDrawerNavigator({
   DashBoard: {
     screen: DashBoard,
+  //  screen: (props) => <DashBoard {...props.navigation.state.params} propName={val1} /> ,
     navigationOptions: {
       drawerLabel: 'Home',
       drawerIcon: <AntDesign name="home" size={30} color="green" marginTop='0' />,

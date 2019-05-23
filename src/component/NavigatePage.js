@@ -11,7 +11,7 @@ import Display from './CardComponent';
 import Edit from '../pages/Edit';
 import Edelete from './EditDelete';
 import CardPrint from './CardDelete';
-
+import Forgot from '../component/Forgot';
 
 
 
@@ -26,8 +26,7 @@ const pages = createStackNavigator({
     Modify: { screen: Edit },
     CardPrint: { screen: CardPrint },
     Edelete: { screen: Edelete },
-   
-  
+    Forgot: { screen: Forgot },
 },
     {
         initialRouteName: 'Login',

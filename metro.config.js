@@ -4,14 +4,25 @@
  *
  * @format
  */
+const { getDefaultConfig } = require("metro-config");
 
-module.exports = {
-  transformer: {
-    getTransformOptions: async () => ({
-      transform: {
-        experimentalImportSupport: false,
-        inlineRequires: false,
-      },
-    }),
-  },
-};
+
+module.exports = (async () => {
+  const {
+    resolver: { sourceExts }
+  } = await getDefaultConfig();
+  return {
+    transformer: {
+      babelTransformerPath: require.resolve("react-native-less-transformer"),
+      getTransformOptions: async () => ({
+        transform: {
+          experimentalImportSupport: false,
+          inlineRequires: false,
+        },
+        resolver: {
+          sourceExts: [...sourceExts, "less"]
+        },
+      }),
+    },
+  }
+})();

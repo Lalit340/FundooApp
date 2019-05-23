@@ -1,25 +1,68 @@
 
 import React, { Component } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, Dimensions, AsyncStorage } from 'react-native';
 import { DrawerActions } from 'react-navigation-drawer';
-import { getData, editTrash, editSelect, updatePin } from '../config/Implementation';
+import { getData, editTrash, editSelect, updatePin, editPhoto, uploadImage, getImage } from '../config/Implementation';
 import Display from '../component/CardComponent';
-//import RNLocalNotifications from 'react-native-local-notifications';
+import { Avatar } from "react-native-elements";
+import Modal from "react-native-modal";
+import ImagePicker from "react-native-image-picker";
+import firebase from '../config/Firebase'
+import database from '../config/Firebase'
+import Firebase from '../config/Firebase'
+//import { } from 'json-circular-stringify'
+const options = {
+  title: 'Select Avatar',
+  takePhotoButtonTitle: 'Teke a Photo',
+  chooseFromLibraryButtonTitle: 'Take Photo from Gallery',
 
+};
 
-
+var pic = null;
 export default class HomePage extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       click: true,
       note: [],
       pin: false,
       selectItem: false,
+      isModal: false,
+      photo: '',
+      name: '',
+      key: '',
+      //  pic : this.props.navigation.state.params.photo ,
+
     }
   }
+  static navigationOptions = {
+    header: null,
+  }
 
+  async imagePicker() {
+    await ImagePicker.showImagePicker(options, (response) => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else {
+        // const source = { uri: response.uri };
+
+        // You can also display the image using data:
+        // const source = { uri: 'data:image/jpeg;base64,' + response.data };
+
+        this.setState({
+          photo: response.uri,
+        });
+        editPhoto(this.state.photo, this.state.info, this.state.key);
+        uploadImage(this.state.photo);
+        getImage();
+      }
+    });
+  }
   getClick() {
     this.setState({ click: !(this.state.click) });
   }
@@ -31,7 +74,7 @@ export default class HomePage extends Component {
   }
 
   componentDidMount() {
-    //RNLocalNotifications.createNotification(1, 'Some text', '2019-04-27 05:10', 'default');
+
 
     getData(arr => {
       console.warn(arr);
@@ -45,6 +88,38 @@ export default class HomePage extends Component {
         });
       }
     });
+
+
+
+    AsyncStorage.getItem('FBValue', (err, result) => {
+      console.log(result)
+      console.log(JSON.parse(result));
+      var data = JSON.parse(result);
+      console.log(data)
+      if (data !== null) {
+        this.setState({
+          photo: data.pic,
+          name: data.userName,
+        })
+      }
+    });
+
+
+    AsyncStorage.getItem('Data', (err, result) => {
+      console.log(result)
+      console.log(JSON.parse(result));
+      var data = JSON.parse(result);
+      console.log(data)
+      if (data !== null) {
+
+        this.setState({
+          photo: data.pic,
+          name: data.fName + ' ' + data.lName,
+        })
+        alert('image  :: ' + this.state.photo)
+      }
+    });
+
   }
 
 
@@ -73,6 +148,7 @@ export default class HomePage extends Component {
       }
     });
 
+
   }
   handleTrash() {
     let info, keys, trash, selectList;
@@ -91,9 +167,19 @@ export default class HomePage extends Component {
 
   }
 
+  setAvatar = () => {
+    this.setState({
+      isModal: !(this.state.isModal),
+    })
+  }
 
   render() {
-   
+
+
+    const deviceWidth = Dimensions.get("window").width;
+     const deviceHeight= Dimensions.get('window').height;
+
+
     var arrData, key, data;
     var selectItem = false;
     arrData = Object.keys(this.state.note).map((note) => {
@@ -191,7 +277,7 @@ export default class HomePage extends Component {
                   (<View>
                     <TouchableOpacity onPress={() => this.getClick()}>
                       <Image
-                        style={{ width: 25, height: 25, marginLeft: 110, marginVertical: 6 }}
+                        style={{ width: 30, height: 30, marginLeft: 110, marginVertical: 6 }}
                         source={require('../Images/rectangle.png')}
                       />
                     </TouchableOpacity>
@@ -199,22 +285,55 @@ export default class HomePage extends Component {
                   : (<View>
                     <TouchableOpacity onPress={() => this.getClick()}>
                       <Image
-                        style={{ width: 25, height: 25, marginLeft: 110, marginVertical: 6 }}
+                        style={{ width: 30, height: 30, marginLeft: 110, marginVertical: 6 }}
                         source={require('../Images/squar.png')}
                       />
                     </TouchableOpacity>
                   </View>)
               }
-              <TouchableOpacity >
-                <Image
+
+              {/*
+                   <TouchableOpacity > <Image
                   style={{ width: 25, height: 25, marginLeft: 15, marginVertical: 6 }}
                   source={require('../Images/lp.png')}
+                /> 
+                  </TouchableOpacity>*/}
+              <View>
+                <Avatar
+                  size="small"
+                  rounded
+                  source={{
+                    uri: this.state.photo
+                  }}
+                  onPress={() => this.setAvatar()}
+                  containerStyle={{ marginLeft: 17, marginVertical: 3 }}
                 />
-              </TouchableOpacity>
+              </View>
+
+
 
             </View>)
 
         }
+
+        {/* <View>
+          <Modal
+            style={{ marginTop: 350 }}
+            isVisible={this.state.isModal}
+            deviceHeight={500}
+            deviceWidth={deviceWidth}
+            hasBackdrop	={true}
+            onBackdropPress={() => this.setState({ isModal: false })}
+          >
+
+            <View>
+              <Text> jdgfsfdhghskdfhgjhdsgh </Text>
+            </View>
+
+          </Modal>
+        </View> */}
+
+
 
         <ScrollView>
           <View>
@@ -229,6 +348,7 @@ export default class HomePage extends Component {
               {arrData}
             </View>
           </View>
+
         </ScrollView>
 
 
@@ -238,40 +358,80 @@ export default class HomePage extends Component {
             (<View>
 
             </View>)
-            : (<View style={styles.container} >
+            :
+            this.state.isModal ?
+              (<View>
+                <Modal
+                  style={{ marginTop: 500 }}
+                  isVisible={this.state.isModal}
+                  deviceHeight={deviceHeight/5}
+                  deviceWidth={deviceWidth}
+                  hasBackdrop={true}
+                  onBackdropPress={() => this.setState({ isModal: false })}
+                >
 
-              <View style={styles.container2}>
+                  <View style={{ alignItems: 'center' }}>
+                    <Avatar
+                      size='medium'
+                      rounded
+                      source={{
+                        uri: this.state.photo
+                      }}
+                      onPress={() => { this.state.photo }}
+                    />
+                  </View>
+                  <View style={{ alignItems: 'center' }}>
+                    <Text style={styles.modalText}> {this.state.name} </Text>
+                  </View>
 
-                <TouchableOpacity >
-                  <Text style={styles.inputBox} onPress={() => this.createNote()}>Take a Note ...</Text>
-                </TouchableOpacity>
 
-                <TouchableOpacity >
-                  <Image
-                    style={{ width: 20, height: 20, marginHorizontal: 15, marginVertical: 10 }}
-                    source={require('../Images/checked.png')}
-                  /></TouchableOpacity>
-                <TouchableOpacity >
-                  <Image
-                    style={{ width: 20, height: 20, marginHorizontal: 15, marginVertical: 10 }}
-                    source={require('../Images/brush.png')}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity >
-                  <Image
-                    style={{ width: 20, height: 20, marginHorizontal: 15, marginVertical: 10 }}
-                    source={require('../Images/mic.png')}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity >
-                  <Image
-                    style={{ width: 20, height: 20, marginHorizontal: 15, marginVertical: 10 }}
-                    source={require('../Images/gallery.png')}
-                  />
-                </TouchableOpacity>
+                  <View style={{ flexDirection: 'row', }}>
+                    <TouchableOpacity onPress={() => this.imagePicker()}>
+                      <Text style={styles.buttonText}>Change Pic</Text>
+                    </TouchableOpacity>
+                    <Text>                                                       </Text>
+                    <TouchableOpacity onPress={() => this.setAvatar()}>
+                      <Text style={styles.buttonText2}>GO Back</Text>
+                    </TouchableOpacity>
+                  </View>
+
+                </Modal>
+              </View>)
+              :
+              (<View style={styles.container} >
+
+                <View style={styles.container2}>
+
+                  <TouchableOpacity >
+                    <Text style={styles.inputBox} onPress={() => this.createNote()}>Take a Note ...</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity >
+                    <Image
+                      style={{ width: 20, height: 20, marginHorizontal: 15, marginVertical: 10 }}
+                      source={require('../Images/checked.png')}
+                    /></TouchableOpacity>
+                  <TouchableOpacity >
+                    <Image
+                      style={{ width: 20, height: 20, marginHorizontal: 15, marginVertical: 10 }}
+                      source={require('../Images/brush.png')}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity >
+                    <Image
+                      style={{ width: 20, height: 20, marginHorizontal: 15, marginVertical: 10 }}
+                      source={require('../Images/mic.png')}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity >
+                    <Image
+                      style={{ width: 20, height: 20, marginHorizontal: 15, marginVertical: 10 }}
+                      source={require('../Images/gallery.png')}
+                    />
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
-            )
+              )
         }
       </View >
     );
@@ -324,6 +484,26 @@ const styles = StyleSheet.create({
     height: 1,
     width: '100%',
     backgroundColor: 'black',
-  }
+  },
+  modalText: {
+    fontSize: 20,
+    marginTop: 8,
+    textAlign: 'center',
+    color: '#004d40',
+  },
+  buttonText: {
+    fontSize: 20,
+    backgroundColor: '#4e342e',
+    color: '#fff',
+    borderRadius: 5,
+
+  },
+  buttonText2: {
+    fontSize: 20,
+    borderRadius: 5,
+    backgroundColor: '#4e342e',
+    color: '#fff',
+
+  },
 
 });

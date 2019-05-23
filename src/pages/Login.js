@@ -7,9 +7,11 @@ import {
     TextInput,
     TouchableOpacity,
     Image,
+    AsyncStorage,
 } from 'react-native';
 
-import { signinPage, saveData } from '../config/Implementation';
+import { signinPage, saveData, fbLogin } from '../config/Implementation';
+
 
 
 
@@ -20,7 +22,8 @@ class LoginPage extends Component {
         super();
         this.state = {
             user: '',
-            pwd: ''
+            pwd: '',
+            pic: '',
         }
 
     }
@@ -29,6 +32,10 @@ class LoginPage extends Component {
 
     getSignup() {
         this.props.navigation.navigate('Data');
+    }
+
+    password() {
+        this.props.navigation.navigate('Forgot');
     }
 
     signInValidation() {
@@ -45,23 +52,48 @@ class LoginPage extends Component {
         else if (pwd.trim().length < 8)
             alert('enter a valid password');
         else {
-            console.log('login success');
+            console.log('validation is good');
             return true;
         }
 
     }
 
+    loginFb() {
+
+        fbLogin(user => {
+            if (user) {
+                this.setState({ pic: user.user.photoURL });
+                var value = {
+                    pic: user.user.photoURL,
+                    userName: user.user.displayName,
+                }
+                AsyncStorage.setItem('FBValue' , JSON.stringify(value));
+                
+                    console.log(" user photo " + this.state.pic +'  '+ value)
+                this.props.navigation.navigate('Drawer', { photo: this.state.pic });
+
+            } else {
+                alert('Login Not Success');
+            }
+        });
+    }
+  
+
     async sign() {
         var validate = this.signInValidation();
-         saveData(this.state.user, this.state.pwd);
-       
-            if (validate) {
-                var data = signinPage(this.state.user, this.state.pwd);
-            }
-            if (data) {
-                this.props.navigation.navigate('Drawer');
-            }
-      
+        await saveData(this.state.user, this.state.pwd);
+
+        if (validate) {
+            var data = signinPage(this.state.user, this.state.pwd);
+            console.log(' Signin value ' + data);
+        }
+
+        if (data) {
+            this.props.navigation.navigate('Drawer');
+        } else {
+            alert('Enter a valid password & email');
+        }
+
     }
 
     render() {
@@ -80,7 +112,7 @@ class LoginPage extends Component {
                     style={styles.textBox}
                     placeholder='enter userId '
                     placeholderTextColor='#ffffff'
-                    
+
                     onChangeText={(user) => this.setState({ user })}
                     onSubmitEditing={() => this.pwd.focus()}
                     value={this.state.user}
@@ -93,12 +125,12 @@ class LoginPage extends Component {
                     secureTextEntry={true}
                     ref={(input) => this.pwd = input}
                     onChangeText={(pwd) => this.setState({ pwd })}
-                    
+
 
                     value={this.state.pwd}
                 />
-                <View  style={{marginRight : 120}}>
-                    <TouchableOpacity >
+                <View style={{ marginRight: 120 }}>
+                    <TouchableOpacity onPress={() => this.password()}>
                         <Text style={styles.textPassword} >Forgotten Password ?</Text>
                     </TouchableOpacity>
                 </View>
@@ -109,6 +141,23 @@ class LoginPage extends Component {
 
                     <TouchableOpacity style={styles.buttonEdit} onPress={() => { this.getSignup() }} >
                         <Text style={styles.textEdit} >Signup</Text>
+                    </TouchableOpacity>
+                </View>
+
+                <View>
+                    <Text style={{ fontSize: 25, color: 'green', marginTop: 50 }}> ---------- OR ---------- </Text>
+                </View>
+
+                <View style={styles.fbLogin}>
+                    <TouchableOpacity onPress={() => this.loginFb()}>
+                        <Image
+                            style={{ width: 40, height: 40, marginRight: 15 }}
+                            source={require('../Images/FaceBook.png')} />
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Image
+                            style={{ width: 37, height: 37 }}
+                            source={require('../Images/google.jpg')} />
                     </TouchableOpacity>
                 </View>
 
@@ -127,6 +176,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#424242',
+        //  backgroundColor: '#fff',
         alignItems: 'center',
 
     },
@@ -175,5 +225,12 @@ const styles = StyleSheet.create({
     textPassword: {
         marginVertical: 10,
         color: 'lightgreen',
+    },
+
+    fbLogin: {
+        flexDirection: 'row',
+        marginTop: 15,
+        alignItems: 'center',
+
     },
 })

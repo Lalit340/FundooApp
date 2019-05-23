@@ -49,7 +49,7 @@ export default class Editor extends Component {
 
     }
 
-    handleRestore() {
+    handleRestore = () => {
         this.setState({ trash: !this.state.trash });
         editTrash(this.state.trash, this.props.navigation.state.params.Show, this.props.navigation.state.params.notekey);
         this.props.navigation.goBack();
@@ -69,9 +69,6 @@ export default class Editor extends Component {
                             source={require('../Images/leftArrow.png')}
                         />
                     </TouchableOpacity>
-
-
-
 
                 </View>
                 <ScrollView>
@@ -133,7 +130,6 @@ export default class Editor extends Component {
 
                                 </View>
                             </TouchableOpacity>
-
 
                         </View>
                     </Modal>

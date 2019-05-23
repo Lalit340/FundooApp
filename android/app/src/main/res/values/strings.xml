@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">FundooApp</string>
+    <string name="facebook_app_id">1013319039058365</string>
+
 </resources>

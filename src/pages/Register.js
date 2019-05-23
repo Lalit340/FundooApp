@@ -29,6 +29,7 @@ class SingupPage extends Component {
             lastName: '',
             mobNo: '',
             dob: '',
+            pic : '',
         }
 
     }
@@ -79,10 +80,10 @@ class SingupPage extends Component {
         var check = this.validation();
         if (check) {
             var data = register(this.state.user, this.state.pwd, this.state.firstName,
-                this.state.lastName, this.state.mobNo, this.state.dob);
+                this.state.lastName, this.state.mobNo, this.state.dob ,this.state.pic);
 
             saveData(this.state.user, this.state.pwd, this.state.firstName,
-                this.state.lastName, this.state.mobNo, this.state.dob);
+                this.state.lastName, this.state.mobNo, this.state.dob ,this.state.pic);
         }
         if (data) {
             this.props.navigation.navigate('Login');
