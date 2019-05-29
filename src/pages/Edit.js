@@ -160,7 +160,7 @@ export default class Editor extends Component {
 
     render() {
         const deviceWidth = Dimensions.get("window").width;
-        // const deviceHeight = Dimensions.get('window').height ;
+        const deviceHeight = Dimensions.get('window').height ;
 
 
         return (
@@ -298,7 +298,7 @@ export default class Editor extends Component {
                 <View>
                     <Modal style={{ marginTop: 320 }}
                         isVisible={this.state.visible}
-                        deviceHeight={310}
+                        deviceHeight={deviceHeight/2.2}
                         deviceWidth={deviceWidth}
                         onBackdropPress={() => this.setState({ visible: false })}
                     >

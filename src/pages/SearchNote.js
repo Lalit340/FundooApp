@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, FlatList } 
 import { getData } from '../config/Implementation';
 import Display from '../component/CardComponent';
 import { ScrollView } from 'react-native-gesture-handler';
-
+import LessStyle from '../styles/less/app.less';
 
 
 export default class Note extends Component {
@@ -131,7 +131,7 @@ export default class Note extends Component {
             </View>
           </TouchableOpacity>
           <View style={{ marginVertical: 8, marginLeft: 10 }}>
-            <Text >COLOURS</Text>
+            <Text style={LessStyle.myOtherClass } >COLOURS</Text>
           </View>
        
         

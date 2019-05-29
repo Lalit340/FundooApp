@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions, ScrollView } from 'react-native';
 
-import {  editTrash, deleteNote } from '../config/Implementation';
+import { editTrash, deleteNote } from '../config/Implementation';
 import Modal from "react-native-modal";
 
 
@@ -58,7 +58,7 @@ export default class Editor extends Component {
 
     render() {
         const deviceWidth = Dimensions.get("window").width;
-        // const deviceHeight = Dimensions.get('window').height ;
+        const deviceHeight = Dimensions.get('window').height;
 
         return (
             <View style={{ flex: 1 }}>
@@ -100,9 +100,9 @@ export default class Editor extends Component {
                 </View>
 
                 <View>
-                    <Modal style={{ marginTop: 520 }}
+                    <Modal style={{ marginTop: 530 }}
                         isVisible={this.state.visible}
-                        deviceHeight={520}
+                        deviceHeight={deviceHeight/1.27}
                         deviceWidth={deviceWidth}
                         onBackdropPress={() => this.setState({ visible: false })}
                     >

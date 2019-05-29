@@ -13,16 +13,12 @@ module.exports = (async () => {
   } = await getDefaultConfig();
   return {
     transformer: {
+      experimentalImportSupport: false,
+      inlineRequires: false,
       babelTransformerPath: require.resolve("react-native-less-transformer"),
-      getTransformOptions: async () => ({
-        transform: {
-          experimentalImportSupport: false,
-          inlineRequires: false,
-        },
-        resolver: {
-          sourceExts: [...sourceExts, "less"]
-        },
-      }),
+    },
+    resolver: {
+      sourceExts: [...sourceExts, "less"]
     },
   }
 })();

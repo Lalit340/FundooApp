@@ -7,18 +7,17 @@ import Display from '../component/CardComponent';
 import { Avatar } from "react-native-elements";
 import Modal from "react-native-modal";
 import ImagePicker from "react-native-image-picker";
-import firebase from '../config/Firebase'
-import database from '../config/Firebase'
-import Firebase from '../config/Firebase'
 //import { } from 'json-circular-stringify'
+
+
 const options = {
-  title: 'Select Avatar',
+  title: 'Select Profile Pic',
   takePhotoButtonTitle: 'Teke a Photo',
   chooseFromLibraryButtonTitle: 'Take Photo from Gallery',
 
 };
 
-var pic = null;
+
 export default class HomePage extends Component {
 
   constructor(props) {
@@ -89,7 +88,7 @@ export default class HomePage extends Component {
       }
     });
 
-
+    this.reminderNotice();
 
     AsyncStorage.getItem('FBValue', (err, result) => {
       console.log(result)
@@ -116,7 +115,21 @@ export default class HomePage extends Component {
           photo: data.pic,
           name: data.fName + ' ' + data.lName,
         })
-        alert('image  :: ' + this.state.photo)
+      }
+    });
+
+   
+
+  }
+
+  reminderNotice() {
+    var keys, info;
+    Object.keys(this.state.note).map((note) => {
+      keys = note;
+      info = this.state.note[keys];
+      if (info.reminder !== '') {
+        alert('Date  :: ' + new Date().toString())
+
       }
     });
 
@@ -177,7 +190,7 @@ export default class HomePage extends Component {
 
 
     const deviceWidth = Dimensions.get("window").width;
-     const deviceHeight= Dimensions.get('window').height;
+    const deviceHeight = Dimensions.get('window').height;
 
 
     var arrData, key, data;
@@ -364,7 +377,7 @@ export default class HomePage extends Component {
                 <Modal
                   style={{ marginTop: 500 }}
                   isVisible={this.state.isModal}
-                  deviceHeight={deviceHeight/5}
+                  deviceHeight={deviceHeight / 1.27}
                   deviceWidth={deviceWidth}
                   hasBackdrop={true}
                   onBackdropPress={() => this.setState({ isModal: false })}

@@ -71,6 +71,5 @@ public class MainApplication extends Application implements ReactApplication {
     AppEventsLogger.activateApp(this);
     SoLoader.init(this, /* native exopackage */ false);
   
-
   }
 }
