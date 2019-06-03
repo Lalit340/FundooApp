@@ -78,8 +78,8 @@ const styles = StyleSheet.create({
     },
     button: {
         backgroundColor: 'green',
-        marginHorizontal : 20,
-        marginTop : 10,
+        marginHorizontal: 20,
+        marginTop: 10,
         alignItems: 'center'
     },
     buttonText: {

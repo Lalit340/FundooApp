@@ -117,17 +117,20 @@ export default class HomePage extends Component {
         })
       }
     });
-
+    
+    alert('Date  :: ' + new Date().toString().slice(4 , 10)+'  '+new Date().toString().slice(16, 21));
    
 
   }
+  
+
 
   reminderNotice() {
     var keys, info;
     Object.keys(this.state.note).map((note) => {
       keys = note;
       info = this.state.note[keys];
-      if (info.reminder !== '') {
+      if (info.reminder === new Date().toString().slice(4 , 10)+'  '+new Date().toString().slice(16, 21)) {
         alert('Date  :: ' + new Date().toString())
 
       }

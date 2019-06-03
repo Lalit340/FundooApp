@@ -34,15 +34,16 @@ export default async function register(email, password, fname, lname, mobno, dob
     });
 };
 
-export async function signinPage(email, password) {
+export async function signinPage(email, password , callback) {
 
     var valid = await firebase.firebase.auth().signInWithEmailAndPassword(email, password)
         .then(() => {
             console.log('logged in');
+            return callback(true) ;
         }).catch((error) => {
             console.log('logged failed');
             if (error) {
-                return error;
+                return callback(false);
             }
         });
 

@@ -24,6 +24,7 @@ class LoginPage extends Component {
             user: '',
             pwd: '',
             pic: '',
+            data: false,
         }
 
     }
@@ -67,9 +68,9 @@ class LoginPage extends Component {
                     pic: user.user.photoURL,
                     userName: user.user.displayName,
                 }
-                AsyncStorage.setItem('FBValue' , JSON.stringify(value));
-                
-                    console.log(" user photo " + this.state.pic +'  '+ value)
+                AsyncStorage.setItem('FBValue', JSON.stringify(value));
+
+                console.log(" user photo " + this.state.pic + '  ' + value)
                 this.props.navigation.navigate('Drawer', { photo: this.state.pic });
 
             } else {
@@ -77,22 +78,24 @@ class LoginPage extends Component {
             }
         });
     }
-  
+
 
     async sign() {
         var validate = this.signInValidation();
         await saveData(this.state.user, this.state.pwd);
 
         if (validate) {
-            var data = signinPage(this.state.user, this.state.pwd);
-            console.log(' Signin value ' + data);
+            await signinPage(this.state.user, this.state.pwd, msg => {
+                if (msg) {    
+                    this.props.navigation.navigate('Drawer');
+                } else {
+                    alert('Enter a valid password & email');
+                }
+            });
+            //  console.log(JSON.parse(data));
         }
 
-        if (data) {
-            this.props.navigation.navigate('Drawer');
-        } else {
-            alert('Enter a valid password & email');
-        }
+
 
     }
 
