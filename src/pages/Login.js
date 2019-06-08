@@ -92,7 +92,7 @@ class LoginPage extends Component {
                     alert('Enter a valid password & email');
                 }
             });
-            //  console.log(JSON.parse(data));
+
         }
 
 

@@ -34,24 +34,18 @@ export default async function register(email, password, fname, lname, mobno, dob
     });
 };
 
-export async function signinPage(email, password , callback) {
+export async function signinPage(email, password, callback) {
 
-    var valid = await firebase.firebase.auth().signInWithEmailAndPassword(email, password)
+    await firebase.firebase.auth().signInWithEmailAndPassword(email, password)
         .then(() => {
             console.log('logged in');
-            return callback(true) ;
+            return callback(true);
         }).catch((error) => {
             console.log('logged failed');
             if (error) {
                 return callback(false);
             }
         });
-
-    if (valid) {
-        return true;
-    } else {
-        return false;
-    }
 
 
 };
@@ -124,14 +118,14 @@ export async function saveData(username, pwd) {
             var lName = snap.child('LastName').val();
             var photo = snap.child('photo').val();
             var key = snap.key;
-    
+
             var arr = {
                 pic: photo,
                 email: email,
                 fName: fName,
                 lName: lName,
                 key: key,
-              
+
             }
             AsyncStorage.setItem('Data', JSON.stringify(arr));
 
@@ -281,9 +275,9 @@ window.fetch = new Fetch({
 export async function uploadImage(path) {
     const imageFile = RNFetchBlob.wrap(path);
     const user = firebase.firebase.auth().currentUser;
-    var email = user.email ;
-    const ref = firebase.firebase.storage().ref(email+'/pic');
-    alert('image inserted in storage ::'+email)
+    var email = user.email;
+    const ref = firebase.firebase.storage().ref(email + '/pic');
+    alert('image inserted in storage ::' + email)
     var uploadBlob = null;
 
     Blob.build(imageFile, { type: 'image/jpg;' })
@@ -301,7 +295,7 @@ export async function uploadImage(path) {
                 payload: 'Unable to upload profile picture, please try again'
             });
         });
-  
+
 }
 
 
@@ -310,25 +304,24 @@ export async function getImage() {
     const ref = await firebase.firebase.storage().ref(user.email + '/pic');
     var imag = await ref.getDownloadURL();
 
-    uploadPhotos(imag , user.email);
-      alert('imag  :' + imag)
- 
+    uploadPhotos(imag, user.email);
+    alert('imag  :' + imag)
+
 }
 
 
- export async function uploadPhotos(imag ,username){
+export async function uploadPhotos(imag, username) {
 
     await Firebase.database.ref('UsersInfo').orderByChild('email').equalTo(username).on('value', snap => {
         snap.forEach(function (snap) {
             var key = snap.key;
             var info = snap.val();
-            
-            editPhoto(imag, info, key) ;
 
-           alert('edit success ' + imag);
-            
+            editPhoto(imag, info, key);
+
+            alert('edit success ' + imag);
+
         });
     });
 
- }
-    
+}
