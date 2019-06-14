@@ -138,7 +138,7 @@ export async function saveData(username, pwd) {
 
 
 export async function editNotes(Title, notes, note, key) {
-    alert(note);
+  //  alert(note);
     note = {
         title: Title,
         note: notes,
@@ -250,34 +250,34 @@ export async function editInfo(info, key) {
 }
 
 const Blob = RNFetchBlob.polyfill.Blob
-const fs = RNFetchBlob.fs
+//const fs = RNFetchBlob.fs
 window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
 window.Blob = Blob
-const Fetch = RNFetchBlob.polyfill.Fetch
-// replace built-in fetch
-window.fetch = new Fetch({
-    // enable this option so that the response data conversion handled automatically
-    auto: true,
-    // when receiving response data, the module will match its Content-Type header
-    // with strings in this array. If it contains any one of string in this array, 
-    // the response body will be considered as binary data and the data will be stored
-    // in file system instead of in memory.
-    // By default, it only store response data to file system when Content-Type 
-    // contains string `application/octet`.
-    binaryContentTypes: [
-        'image/',
-        'video/',
-        'audio/',
-        'foo/',
-    ]
-}).build();
+// const Fetch = RNFetchBlob.polyfill.Fetch
+// // replace built-in fetch
+// window.fetch = new Fetch({
+//     // enable this option so that the response data conversion handled automatically
+//     auto: true,
+//     // when receiving response data, the module will match its Content-Type header
+//     // with strings in this array. If it contains any one of string in this array, 
+//     // the response body will be considered as binary data and the data will be stored
+//     // in file system instead of in memory.
+//     // By default, it only store response data to file system when Content-Type 
+//     // contains string `application/octet`.
+//     binaryContentTypes: [
+//         'image/',
+//         'video/',
+//         'audio/',
+//         'foo/',
+//     ]
+// }).build();
 
 export async function uploadImage(path) {
     const imageFile = RNFetchBlob.wrap(path);
     const user = firebase.firebase.auth().currentUser;
     var email = user.email;
     const ref = firebase.firebase.storage().ref(email + '/pic');
-    alert('image inserted in storage ::' + email)
+  //  alert('image inserted in storage ::' + email)
     var uploadBlob = null;
 
     Blob.build(imageFile, { type: 'image/jpg;' })
@@ -285,15 +285,13 @@ export async function uploadImage(path) {
             uploadBlob = imageBlob;
             return ref.put(imageBlob, { contentType: 'image/jpg' });
         })
-        .then(() => {
-            uploadBlob.close();
-            return ref.getDownloadURL();
-        })
-        .catch(() => {
-            dispatch({
-                type: UPDATE_PROFILE_INFO_FAIL,
-                payload: 'Unable to upload profile picture, please try again'
-            });
+        // .then(() => {
+        //     uploadBlob.close();
+        //     return ref.getDownloadURL();
+        // })
+        .catch((error) => {
+          console.log('profile pic not updated');
+          return error;
         });
 
 }
@@ -305,7 +303,7 @@ export async function getImage() {
     var imag = await ref.getDownloadURL();
 
     uploadPhotos(imag, user.email);
-    alert('imag  :' + imag)
+  //  alert('imag  :' + imag)
 
 }
 

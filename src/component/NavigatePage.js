@@ -12,7 +12,7 @@ import Edit from '../pages/Edit';
 import Edelete from './EditDelete';
 import CardPrint from './CardDelete';
 import Forgot from '../component/Forgot';
-
+//import  Notification  from "../component/PushNotification";
 
 
 const pages = createStackNavigator({
@@ -27,6 +27,7 @@ const pages = createStackNavigator({
     CardPrint: { screen: CardPrint },
     Edelete: { screen: Edelete },
     Forgot: { screen: Forgot },
+  //  Push : { screen : Notification , navigationOptions: { header: null }}
 },
     {
         initialRouteName: 'Login',

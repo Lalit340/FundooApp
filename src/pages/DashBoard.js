@@ -7,7 +7,9 @@ import Display from '../component/CardComponent';
 import { Avatar } from "react-native-elements";
 import Modal from "react-native-modal";
 import ImagePicker from "react-native-image-picker";
-//import { } from 'json-circular-stringify'
+import firebase from "react-native-firebase";
+import { sendNotification, init } from "../component/PushNotification";
+import BackgroundTimer from 'react-native-background-timer';
 
 
 const options = {
@@ -31,6 +33,7 @@ export default class HomePage extends Component {
       photo: '',
       name: '',
       key: '',
+      token: ''
       //  pic : this.props.navigation.state.params.photo ,
 
     }
@@ -87,8 +90,42 @@ export default class HomePage extends Component {
         });
       }
     });
+    //  this.checkPermission();
 
-    this.reminderNotice();
+    //this.createNotificationListeners();
+    //  this.reminderNotice();
+
+    // var keys, info;
+
+    // Object.keys(this.state.note).map((note) => {
+    //   keys = note;
+    //   info = this.state.note[keys];
+    //   alert('hi');
+    //   window.setInterval(function () {
+    //     if (info.reminder !== '') {
+    //       if (info.reminder === new Date().toString().slice(4, 10) + '  ' + new Date().toString().slice(16, 21)) {
+    //         alert('Date  :: ' + new Date().toString());
+    //       }
+    //     }
+    //   }, 5000);
+    // });
+
+
+
+    AsyncStorage.getItem("FCMToken", (err, result) => {
+      if (result !== null) {
+        alert("token  : " + result)
+        this.reminderNotice(result);
+      } else {
+        alert('error in token generation ')
+      }
+    })
+
+
+
+
+
+
 
     AsyncStorage.getItem('FBValue', (err, result) => {
       console.log(result)
@@ -117,24 +154,44 @@ export default class HomePage extends Component {
         })
       }
     });
-    
-    alert('Date  :: ' + new Date().toString().slice(4 , 10)+'  '+new Date().toString().slice(16, 21));
-   
+
+    // alert('Date  :: ' + new Date().toString().slice(4, 10) + '  ' + new Date().toString().slice(16, 21));
+
 
   }
-  
 
 
-  reminderNotice() {
-    var keys, info;
-    Object.keys(this.state.note).map((note) => {
-      keys = note;
-      info = this.state.note[keys];
-      if (info.reminder === new Date().toString().slice(4 , 10)+'  '+new Date().toString().slice(16, 21)) {
-        alert('Date  :: ' + new Date().toString())
 
-      }
-    });
+
+
+
+
+
+
+  async reminderNotice(token) {
+    // let keys, info;
+    //  Object.keys(this.state.note).map((note) => {
+      alert('hi : '+token);
+      // keys = note;
+      // info = this.state.note[keys];
+      let title = "title";
+      let desc = "hlo hi";
+      // alert(title + "   ggff " + desc);
+      BackgroundTimer.setInterval(function () {
+        //if (info.reminder !== '') {
+          // if (info.reminder === new Date().toString().slice(4, 10) + '  ' + new Date().toString().slice(16, 21)) {
+          //   alert('Date  :: ' + new Date().toString());
+
+
+          //alert(this.state.token + ' dhgkdfkg')
+          sendNotification(token, title, desc);
+
+          //   }
+       // }
+      }, 5000);
+
+
+  //  });
 
   }
 
@@ -196,6 +253,7 @@ export default class HomePage extends Component {
     const deviceHeight = Dimensions.get('window').height;
 
 
+
     var arrData, key, data;
     var selectItem = false;
     arrData = Object.keys(this.state.note).map((note) => {
@@ -232,6 +290,9 @@ export default class HomePage extends Component {
         )
       }
     });
+
+
+
 
     return (
       <View style={{ flex: 1 }} >

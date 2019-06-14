@@ -1,101 +1,92 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.fundooapp">
-
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> 
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-  
-
-<uses-permission android:name="android.permission.WAKE_LOCK" />
-    <permission
-        android:name="com.fundooapp.permission.C2D_MESSAGE"
-        android:protectionLevel="signature" />
-    <uses-permission android:name="com.fundooapp.permission.C2D_MESSAGE" />
-        <uses-permission android:name="android.permission.VIBRATE" />
-        
-
- 
-
-    <application
-      android:name=".MainApplication"
-      android:label="@string/app_name"
-      android:icon="@mipmap/ic_launcher_round"
-      android:roundIcon="@mipmap/ic_launcher_round"
-      android:allowBackup="false"
-      android:launchMode="singleTop"
-      android:theme="@style/AppTheme">
-
-     
-       <meta-data android:name="com.facebook.sdk.ApplicationId"
-          android:value="@string/facebook_app_id"/>
-          
-              <!-- <meta-data  android:name="com.dieam.reactnativepushnotification.notification_channel_name"
-                android:value="YOUR NOTIFICATION CHANNEL NAME"/>
-        <meta-data  android:name="com.dieam.reactnativepushnotification.notification_channel_description"
-                    android:value="YOUR NOTIFICATION CHANNEL DESCRIPTION"/>
-           <meta-data  android:name="com.dieam.reactnativepushnotification.notification_color"
-                    android:resource="@android:color/white"/> -->
-
-   <!-- <service android:name="com.evollu.react.fcm.MessagingService" android:enabled="true" android:exported="true">
-     <intent-filter>
-       <action android:name="com.google.firebase.MESSAGING_EVENT"/>
-     </intent-filter>
-   </service>
-
-   <service android:name="com.evollu.react.fcm.InstanceIdService" android:exported="false">
-     <intent-filter>
-       <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
-     </intent-filter>
-   </service> -->
-
-
-      <activity
-        android:name=".MainActivity"
-        android:label="@string/app_name"
-        android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-        android:windowSoftInputMode="adjustResize">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-     <action android:name="android.intent.action.DOWNLOAD_COMPLETE"/>
-        </intent-filter>
-      </activity>
-
-      <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
-
- <!-- <receiver android:process=":remote" android:name="com.github.wumke.RNLocalNotifications.AlarmReceiver" android:exported="true"></receiver>
-      
-<receiver android:name="com.emekalites.react.alarm.notification.ANAlarmReceiver" android:enabled="true"/> -->
-        <!-- <receiver android:name="com.emekalites.react.alarm.notification.ANBootReceiver" android:enabled="true" android:exported="true">
- <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
-                <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
-            </intent-filter>
-        </receiver> -->
-                <receiver android:name="com.emekalites.react.alarm.notification.ANDismissReceiver" android:exported="false"/>
-
-       <!-- <receiver
-            android:name="com.google.android.gms.gcm.GcmReceiver"
-            android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND" >
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <category android:name="com.fundooapp" />
-            </intent-filter>
-        </receiver>
-         <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationPublisher" />
-         <service android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationRegistrationService"/>
-<service
-            android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationListenerServiceGcm"
-            android:exported="false" >
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-            </intent-filter>
-        </service> -->
-           
-    </application>
-
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.fundooapp">
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+	<uses-permission android:name="android.permission.CAMERA" />
+	<uses-feature android:name="android.hardware.camera" android:required="false" />
+	<uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
+	<uses-permission android:name="android.permission.WAKE_LOCK" />
+	<permission android:name="com.fundooapp.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+	<uses-permission android:name="com.fundooapp.permission.C2D_MESSAGE" />
+	<uses-permission android:name="android.permission.VIBRATE" />
+	<application android:name=".MainApplication" android:label="@string/app_name" android:icon="@mipmap/ic_launcher_round" android:roundIcon="@mipmap/ic_launcher_round" android:allowBackup="false" android:launchMode="singleTop" android:theme="@style/AppTheme">
+		<meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id" />
+		<!--
+		<meta-data  android:name="com.dieam.reactnativepushnotification.notification_channel_name"
+		android:value="YOUR NOTIFICATION CHANNEL NAME"/>
+		<meta-data  android:name="com.dieam.reactnativepushnotification.notification_channel_description"
+		android:value="YOUR NOTIFICATION CHANNEL DESCRIPTION"/>
+		<meta-data  android:name="com.dieam.reactnativepushnotification.notification_color"
+		android:resource="@android:color/white"/>
+		-->
+		<!--
+		<service android:name="com.evollu.react.fcm.MessagingService" android:enabled="true" android:exported="true">
+		<intent-filter>
+		<action android:name="com.google.firebase.MESSAGING_EVENT"/>
+		</intent-filter>
+		</service>
+		
+		<service android:name="com.evollu.react.fcm.InstanceIdService" android:exported="false">
+		<intent-filter>
+		<action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+		</intent-filter>
+		</service>
+		-->
+		<meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@mipmap/ic_notif" />
+		<meta-data android:name="com.google.firebase.messaging.default_notification_channel_id" android:value="my_default_channel" />
+		<service android:name="com.evollu.react.fcm.MessagingService" android:enabled="true" android:exported="true">
+			<intent-filter>
+				<action android:name="com.google.firebase.MESSAGING_EVENT" />
+			</intent-filter>
+		</service>
+		<service android:name="com.evollu.react.fcm.InstanceIdService" android:exported="false">
+			<intent-filter>
+				<action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+			</intent-filter>
+		</service>
+		<activity android:name=".MainActivity" android:label="@string/app_name" android:configChanges="keyboard|keyboardHidden|orientation|screenSize" android:windowSoftInputMode="adjustResize" android:launchMode="singleTop">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+				<action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+			</intent-filter>
+		</activity>
+		<activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
+		<!--
+		<receiver android:process=":remote" android:name="com.github.wumke.RNLocalNotifications.AlarmReceiver" android:exported="true"></receiver>
+		
+		<receiver android:name="com.emekalites.react.alarm.notification.ANAlarmReceiver" android:enabled="true"/>
+		-->
+		<!--
+		<receiver android:name="com.emekalites.react.alarm.notification.ANBootReceiver" android:enabled="true" android:exported="true">
+		<intent-filter>
+		<action android:name="android.intent.action.BOOT_COMPLETED"/>
+		<action android:name="android.intent.action.QUICKBOOT_POWERON"/>
+		<action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
+		</intent-filter>
+		</receiver>
+		-->
+		<receiver android:name="com.emekalites.react.alarm.notification.ANDismissReceiver" android:exported="false" />
+		<!--
+		<receiver
+		android:name="com.google.android.gms.gcm.GcmReceiver"
+		android:exported="true"
+		android:permission="com.google.android.c2dm.permission.SEND" >
+		<intent-filter>
+		<action android:name="com.google.android.c2dm.intent.RECEIVE" />
+		<category android:name="com.fundooapp" />
+		</intent-filter>
+		</receiver>
+		<receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationPublisher" />
+		<service android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationRegistrationService"/>
+		<service
+		android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationListenerServiceGcm"
+		android:exported="false" >
+		<intent-filter>
+		<action android:name="com.google.android.c2dm.intent.RECEIVE" />
+		</intent-filter>
+		</service>
+		-->
+	</application>
 </manifest>

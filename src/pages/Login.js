@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 
 import { signinPage, saveData, fbLogin } from '../config/Implementation';
+import { init } from "../component/PushNotification";
 
 
 
@@ -27,6 +28,20 @@ class LoginPage extends Component {
             data: false,
         }
 
+    }
+
+    componentDidMount() {
+
+
+        init(token => {
+            if (token) {
+                alert('hil' + token)
+                AsyncStorage.setItem('FCMToken', token);
+            } else {
+                alert('no token present');
+            }
+
+        })
     }
 
     static navigationOptions = { header: null };
@@ -86,7 +101,7 @@ class LoginPage extends Component {
 
         if (validate) {
             await signinPage(this.state.user, this.state.pwd, msg => {
-                if (msg) {    
+                if (msg) {
                     this.props.navigation.navigate('Drawer');
                 } else {
                     alert('Enter a valid password & email');

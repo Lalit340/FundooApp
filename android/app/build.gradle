@@ -95,6 +95,8 @@ def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
+    // compileSdkVersion 27 ;
+    // buildToolsVersion "27.0.3";
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -105,6 +107,7 @@ android {
         applicationId "com.fundooapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
+        // targetSdkVersion 27
         versionCode 1
         versionName "1.0"
     }
@@ -139,6 +142,8 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-background-timer')
+    implementation project(':react-native-fcm')
        compile(project(':react-native-firebase')) {   
        transitive = false
    }
@@ -154,9 +159,9 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
     implementation 'com.facebook.android:facebook-android-sdk:4.34.0'
-    implementation "com.google.android.gms:play-services-base:15.0.0"
-    implementation "com.google.firebase:firebase-core:15.0.2"
-    implementation "com.google.firebase:firebase-messaging:15.0.2"
+    implementation "com.google.android.gms:play-services-base:16.1.0"
+    implementation "com.google.firebase:firebase-core:16.0.9"
+    implementation "com.google.firebase:firebase-messaging:18.0.0"
 
 
   
@@ -170,3 +175,4 @@ task copyDownloadableDepsToLibs(type: Copy) {
 }
 
 apply plugin: 'com.google.gms.google-services' ;
+
