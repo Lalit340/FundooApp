@@ -346,25 +346,6 @@ export default class HomePage extends Component {
 
         }
 
-        {/* <View>
-          <Modal
-            style={{ marginTop: 350 }}
-            isVisible={this.state.isModal}
-            deviceHeight={500}
-            deviceWidth={deviceWidth}
-            hasBackdrop	={true}
-            onBackdropPress={() => this.setState({ isModal: false })}
-          >
-
-            <View>
-              <Text> jdgfsfdhghskdfhgjhdsgh </Text>
-            </View>
-
-          </Modal>
-        </View> */}
-
-
-
         <ScrollView>
           <View>
             <Text style={{ fontSize: 10, marginLeft: 15 }}>Pinned</Text>

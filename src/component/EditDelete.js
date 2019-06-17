@@ -102,7 +102,7 @@ export default class Editor extends Component {
                 <View>
                     <Modal style={{ marginTop: 530 }}
                         isVisible={this.state.visible}
-                        deviceHeight={deviceHeight/1.27}
+                        deviceHeight={deviceHeight/1.3}
                         deviceWidth={deviceWidth}
                         onBackdropPress={() => this.setState({ visible: false })}
                     >
