@@ -7,10 +7,10 @@ import Display from '../component/CardComponent';
 import { Avatar } from "react-native-elements";
 import Modal from "react-native-modal";
 import ImagePicker from "react-native-image-picker";
-import firebase from "react-native-firebase";
-import { sendNotification, init } from "../component/PushNotification";
+import { sendNotification } from "../component/PushNotification";
 import BackgroundTimer from 'react-native-background-timer';
-
+import moment from 'moment';
+import Snackbar from 'react-native-snackbar';
 
 const options = {
   title: 'Select Profile Pic',
@@ -34,7 +34,6 @@ export default class HomePage extends Component {
       name: '',
       key: '',
       token: ''
-      //  pic : this.props.navigation.state.params.photo ,
 
     }
   }
@@ -90,42 +89,6 @@ export default class HomePage extends Component {
         });
       }
     });
-    //  this.checkPermission();
-
-    //this.createNotificationListeners();
-    //  this.reminderNotice();
-
-    // var keys, info;
-
-    // Object.keys(this.state.note).map((note) => {
-    //   keys = note;
-    //   info = this.state.note[keys];
-    //   alert('hi');
-    //   window.setInterval(function () {
-    //     if (info.reminder !== '') {
-    //       if (info.reminder === new Date().toString().slice(4, 10) + '  ' + new Date().toString().slice(16, 21)) {
-    //         alert('Date  :: ' + new Date().toString());
-    //       }
-    //     }
-    //   }, 5000);
-    // });
-
-
-
-    AsyncStorage.getItem("FCMToken", (err, result) => {
-      if (result !== null) {
-        alert("token  : " + result)
-        this.reminderNotice(result);
-      } else {
-        alert('error in token generation ')
-      }
-    })
-
-
-
-
-
-
 
     AsyncStorage.getItem('FBValue', (err, result) => {
       console.log(result)
@@ -147,7 +110,6 @@ export default class HomePage extends Component {
       var data = JSON.parse(result);
       console.log(data)
       if (data !== null) {
-
         this.setState({
           photo: data.pic,
           name: data.fName + ' ' + data.lName,
@@ -155,46 +117,8 @@ export default class HomePage extends Component {
       }
     });
 
-    // alert('Date  :: ' + new Date().toString().slice(4, 10) + '  ' + new Date().toString().slice(16, 21));
-
 
   }
-
-
-
-
-
-
-
-
-
-  async reminderNotice(token) {
-    // let keys, info;
-    //  Object.keys(this.state.note).map((note) => {
-      alert('hi : '+token);
-      // keys = note;
-      // info = this.state.note[keys];
-      let title = "title";
-      let desc = "hlo hi";
-      // alert(title + "   ggff " + desc);
-      BackgroundTimer.setInterval(function () {
-        //if (info.reminder !== '') {
-          // if (info.reminder === new Date().toString().slice(4, 10) + '  ' + new Date().toString().slice(16, 21)) {
-          //   alert('Date  :: ' + new Date().toString());
-
-
-          //alert(this.state.token + ' dhgkdfkg')
-          sendNotification(token, title, desc);
-
-          //   }
-       // }
-      }, 5000);
-
-
-  //  });
-
-  }
-
 
 
   goBack() {
@@ -291,6 +215,35 @@ export default class HomePage extends Component {
       }
     });
 
+    let keys, info;
+    Object.keys(this.state.note).map((note) => {
+      keys = note;
+      info = this.state.note[keys];
+      let title = info.title;
+      let desc = info.note;
+      var reminderNotice = {};
+      reminderNotice = info.reminder;
+      AsyncStorage.getItem("FCMToken", (err, token) => {
+        if (token !== null) {
+          //    alert("token  : " + token)
+          // alert(moment().format('MMM D, h:mm'));
+          BackgroundTimer.setInterval(function () {
+
+            if (reminderNotice !== '') {
+              if (moment().format('MMM D, H:mm') === reminderNotice) {
+                sendNotification(token, title, desc);
+              }
+            }
+          }, (60 * 1000));
+        } else {
+          Snackbar.show({
+            title: ' FCM-token not generated ',
+            duration: Snackbar.LENGTH_LONG,
+          });
+        }
+      })
+
+    });
 
 
 
@@ -298,7 +251,7 @@ export default class HomePage extends Component {
       <View style={{ flex: 1 }} >
         {
           selectItem ?
-            (<View style={styles.container1}>
+            (<View style={styles.container1} >
               <TouchableOpacity onPress={() => this.goBack()}>
                 <Image
                   style={{ width: 30, height: 30, marginHorizontal: 20, marginVertical: 6 }}
@@ -329,14 +282,14 @@ export default class HomePage extends Component {
                   </View>)
 
               }
-              <TouchableOpacity onPress={() => this.handleTrash()}>
+              < TouchableOpacity onPress={() => this.handleTrash()}>
                 <Image
                   style={{ width: 30, height: 30, marginHorizontal: 15, marginVertical: 6 }}
                   source={require('../Images/delete.png')}
                 />
-              </TouchableOpacity>
+              </TouchableOpacity >
 
-            </View>)
+            </View >)
             :
             (<View style={styles.containers1}>
               <TouchableOpacity onPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}>

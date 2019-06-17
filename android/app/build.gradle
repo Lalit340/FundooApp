@@ -142,6 +142,7 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-snackbar')
     implementation project(':react-native-background-timer')
     implementation project(':react-native-fcm')
        compile(project(':react-native-firebase')) {   

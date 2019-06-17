@@ -99,7 +99,7 @@ export default class CreateNotes extends Component {
         });
     }
     save = () => {
-        var data = this.state.date + '   ' + this.state.time;
+        var data = this.state.date + ', ' + this.state.time;
         this.setState({
             reminder: data,
             dialogLog: false,

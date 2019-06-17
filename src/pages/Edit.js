@@ -92,7 +92,7 @@ export default class Editor extends Component {
     hideTimePicker = () => this.setState({ TimePickerVisible: false });
 
     save = () => {
-        var data = this.state.date + '  ' + this.state.time;
+        var data = this.state.date + ', ' + this.state.time;
         this.setState({
             reminder: data,
             dialogLog: false,

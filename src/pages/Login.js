@@ -35,7 +35,7 @@ class LoginPage extends Component {
 
         init(token => {
             if (token) {
-                alert('hil' + token)
+             //   alert('hil' + token)
                 AsyncStorage.setItem('FCMToken', token);
             } else {
                 alert('no token present');
@@ -130,7 +130,7 @@ class LoginPage extends Component {
                     style={styles.textBox}
                     placeholder='enter userId '
                     placeholderTextColor='#ffffff'
-
+                    keyboardType='email-address'
                     onChangeText={(user) => this.setState({ user })}
                     onSubmitEditing={() => this.pwd.focus()}
                     value={this.state.user}

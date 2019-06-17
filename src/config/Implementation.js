@@ -138,7 +138,7 @@ export async function saveData(username, pwd) {
 
 
 export async function editNotes(Title, notes, note, key) {
-  //  alert(note);
+    //  alert(note);
     note = {
         title: Title,
         note: notes,
@@ -277,9 +277,6 @@ export async function uploadImage(path) {
     const user = firebase.firebase.auth().currentUser;
     var email = user.email;
     const ref = firebase.firebase.storage().ref(email + '/pic');
-  //  alert('image inserted in storage ::' + email)
-    var uploadBlob = null;
-
     Blob.build(imageFile, { type: 'image/jpg;' })
         .then((imageBlob) => {
             uploadBlob = imageBlob;
@@ -290,10 +287,10 @@ export async function uploadImage(path) {
         //     return ref.getDownloadURL();
         // })
         .catch((error) => {
-          console.log('profile pic not updated');
-          return error;
+            console.log('profile pic not updated');
+            return error;
         });
-
+    getImage();
 }
 
 
@@ -303,7 +300,7 @@ export async function getImage() {
     var imag = await ref.getDownloadURL();
 
     uploadPhotos(imag, user.email);
-  //  alert('imag  :' + imag)
+    //  alert('imag  :' + imag)
 
 }
 
@@ -317,7 +314,7 @@ export async function uploadPhotos(imag, username) {
 
             editPhoto(imag, info, key);
 
-            alert('edit success ' + imag);
+            // alert('edit success ' + imag);
 
         });
     });

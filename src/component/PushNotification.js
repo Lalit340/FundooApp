@@ -47,7 +47,7 @@ export const unbind = () => {
 }
 
 export const sendNotification = (token ,title , note) => {
-  alert('hi :'+token)
+//  alert('hi :'+token)
   let body = JSON.stringify({
     "to": token,
     "notification": {
@@ -67,7 +67,7 @@ export const sendNotification = (token ,title , note) => {
   fetch(FCM_URL, { method: "POST", headers, body })
     .then(response => {
       console.log("Send response: ", response);
-      alert(" fhfj :"+ response.status);
+     // alert(" fhfj :"+ response.status);
       if (response.status === 200) {
         onNotification(data => {
           console.log(data);

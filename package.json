@@ -9,6 +9,7 @@
   "dependencies": {
     "firebase": "^5.10.0",
     "json-circular-stringify": "0.0.1",
+    "moment": "^2.24.0",
     "react": "16.8.3",
     "react-native": "0.59.5",
     "react-native-background-timer": "^2.1.1",
@@ -23,6 +24,7 @@
     "react-native-image-picker": "^0.28.1",
     "react-native-modal": "^10.0.0",
     "react-native-modal-datetime-picker": "^7.4.0",
+    "react-native-snackbar": "^1.0.0",
     "react-navigation": "^3.8.1"
   },
   "devDependencies": {
