@@ -2,7 +2,7 @@
 
 buildscript {
     ext {
-         googlePlayServicesVersion = "+" // default: "+"
+         googlePlayServicesVersion = "16.0.0" // default: "+"
         firebaseVersion = "+" // default: "+"
         buildToolsVersion = "28.0.3"
         minSdkVersion = 16
@@ -19,7 +19,7 @@ buildscript {
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
-        classpath 'com.google.gms:google-services:4.0.2' // google-services plugin
+        classpath 'com.google.gms:google-services:4.2.0' // google-services plugin
     }
 }
 
